@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RequirementAtom",
+  "description": "Formal definition of an atomic requirement for Audit-by-Design DSL.",
+  "type": "object",
+  "properties": {
+    "actor": {
+      "type": "string",
+      "description": "The entity performing the action (e.g. system, user, process)."
+    },
+    "modality": {
+      "enum": ["must", "must not"],
+      "description": "Defines the normative obligation according to RFC 2119."
+    },
+    "action": {
+      "type": "string",
+      "description": "Specifies what the actor must or must not do."
+    },
+    "condition": {
+      "type": "string",
+      "description": "Optional condition under which the action applies."
+    },
+    "result": {
+      "type": "string",
+      "description": "Expected outcome when the condition and action are fulfilled."
+    }
+  },
+  "required": ["actor", "modality", "action"],
+  "additionalProperties": false
+}
