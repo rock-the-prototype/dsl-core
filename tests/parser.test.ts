@@ -1,0 +1,34 @@
+import { parseRequirement } from "../src/parser/parser.ts";
+import { assertEquals, assertThrows } from "https://deno.land/std/testing/asserts.ts";
+
+Deno.test("Parsing a valid DSL Requirement Atom", () => {
+  const input =
+    "As a system, I must validate the access token when receiving an ePrescription request then log success or failure.";
+
+  const result = parseRequirement(input);
+
+  assertEquals(result.actor, "system");
+  assertEquals(result.modality, "must");
+  assertEquals(result.action, "validate the access token");
+  assertEquals(result.condition, "receiving an ePrescription request");
+  assertEquals(result.result, "log success or failure");
+});
+
+Deno.test("Normalizes inconsistent spacing and casing", () => {
+  const input =
+    "  as  a SYSTEM ,   i   MUST   validate the Access Token   WHEN receiving data THEN   log Success   or Failure   . ";
+
+  const result = parseRequirement(input);
+
+  assertEquals(result.actor, "system");
+  assertEquals(result.modality, "must");
+  assertEquals(result.action, "validate the access token");
+});
+
+Deno.test("Rejects invalid syntax (missing modality)", () => {
+  const invalid = "As a system, I validate the access token.";
+
+  assertThrows(() => parseRequirement(invalid), Error);
+});
+
+Deno.test("Rejects invalid syntax (missing actor)", ()
