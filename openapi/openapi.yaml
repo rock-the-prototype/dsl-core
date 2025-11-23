@@ -1,0 +1,200 @@
+openapi: 3.1.0
+
+info:
+  title: Audit-by-Design DSL API
+  version: "1.0.0"
+  description: >
+    Official API for the Audit-by-Design DSL Core.
+    Provides normalization, parsing, schema validation, and full Requirement Atom processing.
+    The API follows the principle of Audit-by-Design and ensures deterministic, reproducible,
+    machine-verifiable requirement handling.
+
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+
+tags:
+  - name: Normalization
+    description: Convert DSL text into canonical form.
+  - name: Parsing
+    description: Parse normalized DSL text into Requirement Atoms.
+  - name: Validation
+    description: Validate Requirement Atoms against the canonical JSON Schema.
+  - name: Atom Pipeline
+    description: End-to-end: normalize → parse → schema-validate.
+
+paths:
+
+  /v1/normalize:
+    post:
+      tags: [Normalization]
+      summary: Normalize DSL input
+      description: >
+        Converts raw DSL text into a canonical normalized form (spacing, casing, punctuation).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [input]
+              properties:
+                input:
+                  type: string
+                  description: Raw DSL text to normalize.
+      responses:
+        "200":
+          description: Normalized DSL text
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  normalized:
+                    type: string
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+
+  /v1/parse:
+    post:
+      tags: [Parsing]
+      summary: Parse DSL input into a Requirement Atom
+      description: >
+        Parses normalized or raw DSL input into a structured Requirement Atom object.
+        Performs grammar-level validation (CFG) but not JSON Schema validation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [input]
+              properties:
+                input:
+                  type: string
+                  description: DSL text to parse.
+      responses:
+        "200":
+          description: Parsed Requirement Atom
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequirementAtom"
+        "400":
+          description: Syntax error or invalid grammar
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+
+  /v1/validate:
+    post:
+      tags: [Validation]
+      summary: Validate Requirement Atom using JSON Schema
+      description: >
+        Validates the given Requirement Atom against the canonical JSON Schema defined in dsl-core.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RequirementAtom"
+      responses:
+        "200":
+          description: Validation success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                  message:
+                    type: string
+        "400":
+          description: Schema validation error
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+
+  /v1/atom:
+    post:
+      tags: [Atom Pipeline]
+      summary: End-to-end pipeline — Normalize → Parse → Schema Validate
+      description: >
+        Processes DSL input through the complete pipeline.
+        Returns the final Requirement Atom or detailed diagnostics.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [input]
+              properties:
+                input:
+                  type: string
+                  description: DSL text to process.
+      responses:
+        "200":
+          description: Requirement Atom and diagnostics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  atom:
+                    $ref: "#/components/schemas/RequirementAtom"
+                  normalized:
+                    type: string
+                  diagnostics:
+                    type: array
+                    items:
+                      type: string
+        "400":
+          description: Failure in any stage of the pipeline
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+
+components:
+
+  schemas:
+
+    RequirementAtom:
+      title: RequirementAtom
+      description: Canonical machine-readable representation of a DSL Requirement Atom.
+      type: object
+      required: ["actor", "modality", "action"]
+      additionalProperties: false
+      properties:
+        actor:
+          type: string
+        modality:
+          type: string
+          enum: ["must", "must not"]
+        action:
+          type: string
+        condition:
+          type: string
+        result:
+          type: string
+
+    Error:
+      title: Error
+      type: object
+      required: ["error", "message"]
+      additionalProperties: false
+      properties:
+        error:
+          type: string
+          description: Machine-readable error code.
+          examples: ["InvalidSyntax", "SchemaViolation"]
+        message:
+          type: string
+          description: Human-readable error message.
+        location:
+          type: string
+          description: Optional grammar element where the error occurred.
