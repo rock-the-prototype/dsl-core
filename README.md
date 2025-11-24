@@ -29,6 +29,11 @@ but transparency and auditability high.
 
 ## License
 
-The **Audit-by-Design DSL Core Specification** is released under  
-[Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).  
+## License
+
+As of version v0.2.0, this project is licensed under the Apache License 2.0.
+Previous releases (≤ v0.1.0) were published under Creative Commons BY 4.0.
+
+For all new contributions and usage, the Apache 2.0 license applies.
+
 © 2025 Sascha Block / Rock the Prototype
