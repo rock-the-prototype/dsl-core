@@ -1,60 +1,109 @@
-import { handleApiV1Request } from "../src/server/api_v1.ts";
-import { assertEquals, assert } from "https://deno.land/std/assert/mod.ts";
+/*
+ * Copyright 2025 Sascha Block
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ */
 
-// Helper to simulate requests
-function request(path: string, method = "POST", input?: string, crash = false): Request {
+// tests/api_v1.test.ts
+
+import { handleApiV1Request } from "../src/server/api_v1.ts";
+import {
+  assert,
+  assertEquals,
+} from "https://deno.land/std/assert/mod.ts";
+
+// Helper to build requests
+function makeRequest(
+  path: string,
+  opts: {
+    method?: string;
+    body?: unknown;
+    rawBody?: string;
+  } = {},
+): Request {
   const url = `https://example.com${path}`;
-  if (crash) {
-    // produce a request object that will cause a crash in the parser
-    return new Request(url, { method, body: "DIRTY" });
+  const method = opts.method ?? "POST";
+
+  // Roh-Body (für "kein JSON"-Fall)
+  if (opts.rawBody !== undefined) {
+    return new Request(url, { method, body: opts.rawBody });
   }
-  const body = input ? JSON.stringify({ input }) : JSON.stringify({});
-  return new Request(url, { method, body, headers: { "Content-Type": "application/json" } });
+
+  const headers = { "Content-Type": "application/json" };
+  const body = JSON.stringify(
+    opts.body !== undefined ? opts.body : {},
+  );
+
+  return new Request(url, { method, headers, body });
 }
 
-Deno.test("400 – Rejects invalid body (no input field)", async () => {
-  const req = request("/v1/normalize", "POST");
-  try {
-    await handleApiV1Request(req);
-  } catch (err) {
-    assert(err instanceof Error);
-    assertEquals((err as any).status, 400);
-  }
-});
+Deno.test("400 – body is not valid JSON", async () => {
+  const req = makeRequest("/v1/normalize", {
+    rawBody: "NOT_JSON",
+    method: "POST",
+  });
 
-Deno.test("405 – Rejects non-POST methods", async () => {
-  const req = request("/v1/parse", "GET", "I must not matter");
   const res = await handleApiV1Request(req);
   assert(res);
-  const { error } = await res.json();
-  assert(error.includes("Only POST"));
-  assertEquals(res.status, 405);
-});
-
-Deno.test("404 – Rejects unknown endpoint", async () => {
-  const req = request("/v1/does-not-exist", "POST", "As a system, I must exist.");
-  const res = await handleApiV1Request(req);
-  assert(res);
-  const { error } = await res.json();
-  assert(error.includes("Unknown"));
-  assertEquals(res.status, 404);
-});
-
-Deno.test("400 – Rejects missing 'input' field", async () => {
-  const req = request("/v1/parse", "POST", undefined);
-  const res = await handleApiV1Request(req);
-  assert(res);
-  const { error } = await res.json();
-  assert(error.includes('Field "input"'));
   assertEquals(res.status, 400);
+
+  const data = await res.json();
+  assertEquals(data.error, "Request body must be valid JSON.");
 });
 
-Deno.test("500 – Surfaces internal server crash", async () => {
-  // crash simulation: parser throws, but caught and returned as 500
-  const req = request("/v1/parse", "POST", "trigger crash", true);
+Deno.test("405 – rejects non-POST methods", async () => {
+  const req = makeRequest("/v1/parse", { method: "GET" });
   const res = await handleApiV1Request(req);
+
   assert(res);
-  const { error } = await res.json();
-  assert(error.includes("Internal server error"));
+  assertEquals(res.status, 405);
+
+  const data = await res.json();
+  assert(data.error.includes("Only POST"));
+});
+
+Deno.test("404 – rejects unknown endpoint", async () => {
+  const req = makeRequest("/v1/does-not-exist", {
+    body: { input: "As a system, I must exist." },
+  });
+
+  const res = await handleApiV1Request(req);
+
+  assert(res);
+  assertEquals(res.status, 404);
+
+  const data = await res.json();
+  assert(data.error.includes("Unknown /v1 endpoint"));
+});
+
+Deno.test("400 – rejects missing \"input\" field", async () => {
+  const req = makeRequest("/v1/parse", {
+    body: {}, // kein input
+  });
+
+  const res = await handleApiV1Request(req);
+
+  assert(res);
+  assertEquals(res.status, 400);
+
+  const data = await res.json();
+  assert(data.error.includes('Field "input" (string) is required'));
+});
+
+Deno.test("500 – surfaces unexpected internal error", async () => {
+  // Hier nutzen wir einen bewusst ungültigen DSL-String,
+  // der im Parser eine Exception erzeugt, die NICHT HttpError ist.
+  const req = makeRequest("/v1/parse", {
+    body: { input: "Totally invalid DSL without actor" },
+  });
+
+  const res = await handleApiV1Request(req);
+
+  assert(res);
   assertEquals(res.status, 500);
+
+  const data = await res.json();
+  assert(data.error.includes("Internal server error"));
 });
