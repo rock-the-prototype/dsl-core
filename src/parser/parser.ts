@@ -8,57 +8,98 @@
 
 // src/parser/parser.ts
 
+import {
+  MissingActorError,
+  MissingModalityError,
+  InvalidModalityError,
+  MissingActionError,
+  NormalizationError,
+} from "../errors/errors.ts";
+
+import { normalizeInput } from "./normalizer.ts";
+import { RequirementAtom } from "../types/RequirementAtom.ts";
+
+/**
+ * Main parser function:
+ * Takes a DSL sentence, normalizes it, checks CFG compliance,
+ * extracts components, and returns a Requirement Atom.
+ */
 export function parseRequirement(input: string): RequirementAtom {
-  if (!input?.trim()) {
-    throw new NormalizationError("❌ Input is empty.");
+  if (!input || input.trim().length === 0) {
+    throw new NormalizationError("Input is empty.");
   }
 
-  const normalized = normalizeInput(input.trim());
+  // Step 1: Normalize input to Canonical Form
+  const normalized = normalizeInput(input);
 
   if (!normalized.endsWith(".")) {
-    throw new NormalizationError("❌ DSL statement must end with a single period.");
+    throw new NormalizationError("Statement must end with a single period.");
   }
 
+  // Remove final terminator for parsing
   const statement = normalized.slice(0, -1).trim();
 
-  const regex = /^As\s+([A-Za-z0-9_-]+),\s+I\s+(must|must not)\s+(.+)$/i;
-  const match = statement.match(regex);
+  /**
+   * Expected canonical prefix after normalization:
+   *
+   *   As <actor>, I must <...>
+   *   As <actor>, I must not <...>
+   */
+  const actorRegex =
+    /^As\s+([A-Za-z0-9_-]+),\s+I\s+(must|must not)\s+(.+)$/i;
 
-  if (!match) {
-    throw new MissingActorError("❌ DSL statement does not match canonical syntax.");
+  const actorMatch = statement.match(actorRegex);
+  if (!actorMatch) {
+    throw new MissingActorError();
   }
 
-  const actor = match[1].toLowerCase();
-  const modality = match[2].toLowerCase() as "must" | "must not";
-  let remaining = match[3].trim();
+  const actor = actorMatch[1].toLowerCase();
+  const modalityRaw = actorMatch[2].toLowerCase();
+  let rest = actorMatch[3].trim();
 
-  if (!actor) {
-    throw new MissingActorError("❌ Field \"actor\" is missing.");
+  if (modalityRaw !== "must" && modalityRaw !== "must not") {
+    throw new InvalidModalityError(modalityRaw);
   }
-  if (!modality) {
-    throw new MissingModalityError("❌ Field \"modality\" is missing.");
-  }
-
-  if (modality !== "must" && modality !== "must not") {
-    throw new InvalidModalityError(`❌ Invalid modality: ${modality}. Expected \"must\" or \"must not\".`);
-  }
+  const modality = modalityRaw as "must" | "must not";
 
   let action = "";
   let condition: string | undefined;
   let result: string | undefined;
 
-  const condSplit = remaining.split(/\s+when\s+/i);
-  if (condSplit.length > 1) {
-    action = condSplit[0].trim();
-    [condition, result] = condSplit[1].split(/\s+then\s+/i).map((s) => s.trim());
-  } else {
-    const resSplit = remaining.split(/\s+then\s+/i);
-    action = resSplit[0].trim();
-    result = resSplit[1]?.trim();
-  }
+  /**
+   * Varianten:
+   * 1) As a system, I must <action>
+   * 2) As a system, I must <action> then <result>
+   * 3) As a system, I must <action> when <condition>
+   * 4) As a system, I must <action> when <condition> then <result>
+   */
 
-  if (!action) {
-    throw new MissingActionError("❌ Field \"action\" is missing.");
+  const [head, afterWhen] = rest.split(/\s+when\s+/i);
+
+  if (!afterWhen) {
+    // kein "when" → <action> [then <result>]
+    const [actionPart, resultPart] = head.split(/\s+then\s+/i);
+    action = actionPart.trim();
+    if (!action) {
+      throw new MissingActionError();
+    }
+    if (resultPart && resultPart.trim().length > 0) {
+      result = resultPart.trim();
+    }
+  } else {
+    // mit "when" → <action> when <condition> [then <result>]
+    action = head.trim();
+    if (!action) {
+      throw new MissingActionError();
+    }
+
+    const [conditionPart, resultPart] = afterWhen.split(/\s+then\s+/i);
+    if (conditionPart && conditionPart.trim().length > 0) {
+      condition = conditionPart.trim();
+    }
+    if (resultPart && resultPart.trim().length > 0) {
+      result = resultPart.trim();
+    }
   }
 
   const atom: RequirementAtom = {
