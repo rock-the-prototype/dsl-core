@@ -91,7 +91,7 @@ export async function handleApiV1Request(
     }
   } catch (err) {
     if (err instanceof HttpError) {
-      return json({ success: false, error: err.message }, err.status);
+      return json({ error: err.message }, err.status);
     }
     console.error("[/v1] Unhandled error:", err);
     return json(
