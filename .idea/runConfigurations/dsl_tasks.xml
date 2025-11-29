@@ -1,0 +1,21 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration name="Normalize AFO (stdin)" type="DenoConfigurationType" factoryName="Deno">
+        <option name="filePath" value="src/cli.ts"/>
+        <option name="programParameters" value="normalize"/>
+        <option name="denoOptions" value="--no-prompt --allow-read=."/>
+        <method v="2"/>
+    </configuration>
+
+    <configuration name="Validate AFOs" type="DenoConfigurationType" factoryName="Deno">
+        <option name="filePath" value="src/cli.ts"/>
+        <option name="programParameters" value="validate ./examples"/>
+        <option name="denoOptions" value="--no-prompt --allow-read=./examples"/>
+        <method v="2"/>
+    </configuration>
+
+    <configuration name="Run Tests (audit)" type="DenoConfigurationType" factoryName="Deno">
+        <option name="filePath" value="tests/api_v1.test.ts"/>
+        <option name="denoOptions" value="--no-prompt --allow-read=. --allow-env"/>
+        <method v="2"/>
+    </configuration>
+</component>

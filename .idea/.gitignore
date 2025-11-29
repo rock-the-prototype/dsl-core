@@ -1,0 +1,14 @@
+# Ignore all IntelliJ noise...
+.idea/*
+# ...but keep runConfigurations (launcher configs) accessible to team & CI
+!.idea/runConfigurations/
+!.idea/runConfigurations/**
+
+# Keep product artifacts clean and JSON-first
+*.iml
+misc.xml
+modules.xml
+vcs.xml
+workspace.xml
+copilot.data.migration.agent.xml
+.DS_Store
