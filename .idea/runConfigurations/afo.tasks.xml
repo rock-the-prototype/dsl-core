@@ -1,24 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-    <!-- CLI: normalize from stdin -->
-    <configuration name="Normalize AFO (stdin)" type="DenoConfigurationType" factoryName="Deno">
-        <option name="filePath" value="src/cli.ts"/>
-        <option name="programParameters" value="normalize"/>
-        <option name="denoOptions" value="--no-prompt --allow-read=."/>
-        <method v="2"/>
-    </configuration>
-
-    <!-- CLI: validate file or folder -->
-    <configuration name="Validate AFOs" type="DenoConfigurationType" factoryName="Deno">
-        <option name="filePath" value="src/cli.ts"/>
-        <option name="programParameters" value="validate ./examples"/>
-        <option name="denoOptions" value="--no-prompt --allow-read=./examples"/>
-        <method v="2"/>
-    </configuration>
-
-    <!-- Run Tests -->
-    <configuration name="Run Tests (audit)" type="DenoConfigurationType" factoryName="Deno">
-        <option name="filePath" value="tests/api_v1.test.ts"/>
-        <option name="denoOptions" value="--no-prompt --allow-read=."/>
-        <method v="2"/>
-    </configuration>
+  <configuration default="false" name="Normalize AFO (stdin)" type="DenoConfigurationType" inputPath="$PROJECT_DIR$/src/cli.ts" programParameters="run">
+    <option name="applicationArguments" value="normalize" />
+    <option name="envs">
+      <entry key="KEY" value="value" />
+    </option>
+    <method v="2" />
+  </configuration>
 </component>

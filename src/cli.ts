@@ -1,3 +1,5 @@
+#!/usr/bin/env -S deno run --no-prompt
+
 /*
  * Copyright 2025 Sascha Block
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -6,7 +8,6 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 
-#!/usr/bin/env -S deno run --no-prompt
 import { handleApiV1Request } from "./server/api_v1.ts";
 
 async function readStdin(): Promise<string> {
