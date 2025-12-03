@@ -9,49 +9,43 @@
  */
 
 import { RequirementAtom } from "../types/RequirementAtom.ts";
-import { JSONSchema } from "https://deno.land/x/jsonschema@v1.4.1/mod.ts";
+import schema from "../schema/requirement.schema.json" with { type: "json" };
 
 export interface ValidationResult {
   valid: boolean;
-  errors?: unknown[];
-}
-
-export function validateRequirement(atom: RequirementAtom): ValidationResult {
-  try {
-    const validator = new JSONSchema(schema);
-    const valid = validator.validate(atom);
-
-    if (!valid) {
-      return {
-        valid: false,
-        errors: validator.errors || [],
-      };
-    }
-
-    return { valid: true };
-  } catch (err) {
-    return {
-      valid: false,
-      errors: [err],
-    };
-  }
-}
-
-// Deno global JSON schema validator
-// minimal builtin Deno interface wrapper:
-class JSONSchema {
-  constructor(private schema: unknown) {}
-
-  validate(data: unknown): boolean {
-    const { valid, errors } = validateJsonSchema(this.schema, data);
-    this.errors = errors;
-    return valid;
-  }
-
-  errors: unknown[] = [];
+  errors: string[];
 }
 
 /**
- * Minimal JSON Schema validator wrapper using Deno std
+ * Very simple structure validation for RequirementAtom.
+ * Sufficient for the MVP and for visible CLI feedback.
  */
-import { validate as validateJsonSchema } from "https://deno.land/x/jsonschema/mod.ts";
+export function validateRequirement(atom: RequirementAtom): ValidationResult {
+  const errors: string[] = [];
+
+  // Grundchecks auf Pflichtfelder – an dein Schema anpassen
+  if (!atom.id || atom.id.trim().length === 0) {
+    errors.push("id is required.");
+  }
+
+  if (!atom.title || atom.title.trim().length === 0) {
+    errors.push("title is required.");
+  }
+
+  if (!atom.description || atom.description.trim().length === 0) {
+    errors.push("description is required.");
+  }
+
+  // Optional: Version check
+  if (!atom.version || atom.version.trim().length === 0) {
+    errors.push("version is required.");
+  }
+
+  // You can add further checks here at any time.
+  //  e.g., regex checks, length limits, etc.
+
+  return {
+    valid: errors.length === 0,
+    errors,
+  };
+}

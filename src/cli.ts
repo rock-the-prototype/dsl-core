@@ -8,86 +8,82 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 
-import { handleApiV1Request } from "./server/api_v1.ts";
+// src/cli.ts
+import { parseRequirement } from "./parser/parser.ts";
+import { RequirementAtom } from "./types/RequirementAtom.ts";
+import { validateRequirement } from "./validator/validator.ts";
 
+// Small helper function: reads entire STDIN as a string
 async function readStdin(): Promise<string> {
-  const buf = new Uint8Array(1024 * 64);
-  const n = await Deno.stdin.read(buf);
-  const data = buf.subarray(0, n ?? 0);
-  return new TextDecoder().decode(data).trim();
-}
+  const decoder = new TextDecoder();
+  const chunks: Uint8Array[] = [];
 
-async function normalize(inputPath?: string) {
-  try {
-    const text = inputPath ? await Deno.readTextFile(inputPath) : await readStdin();
-    const req = new Request("https://cli.local/v1/normalize", {
-      method: "POST",
-      body: JSON.stringify({ input: text }),
-      headers: { "Content-Type": "application/json" },
-    });
-    const res = await handleApiV1Request(req);
-    const json = await res.json();
-    console.log(JSON.stringify(json, null, 2));
-    Deno.exit(0);
-  } catch (e) {
-    console.error(JSON.stringify({ error: "ParserError", message: String(e) }, null, 2));
-    Deno.exit(2);
+  for await (const chunk of Deno.stdin.readable) {
+    chunks.push(chunk);
   }
+
+  return decoder.decode(Buffer.concat(chunks));
 }
 
-async function validate(folderOrFile?: string) {
-  try {
-    if (!folderOrFile) throw "No path provided";
-    const stat = await Deno.stat(folderOrFile);
-
-    const targets: string[] = stat.isDirectory
-      ? Array.from(Deno.readDirSync(folderOrFile))
-          .filter(f => f.name.endsWith(".json"))
-          .map(f => `${folderOrFile}/${f.name}`)
-      : [folderOrFile];
-
-    for (const t of targets) {
-      const body = await Deno.readTextFile(t);
-      const req = new Request("https://cli.local/v1/validate", {
-        method: "POST",
-        body,
-        headers: { "Content-Type": "application/json" },
-      });
-      const res = await handleApiV1Request(req);
-      if (!res.ok) {
-        const err = await res.json();
-        console.error(JSON.stringify(err, null, 2));
-        Deno.exit(1);
-      }
+// Polyfill, because buffer does not automatically exist in Deno
+const Buffer = {
+  concat(chunks: Uint8Array[]): Uint8Array {
+    const totalLength = chunks.reduce((sum, c) => sum + c.length, 0);
+    const result = new Uint8Array(totalLength);
+    let offset = 0;
+    for (const c of chunks) {
+      result.set(c, offset);
+      offset += c.length;
     }
-
-    console.log(JSON.stringify({ status: "ValidationPassed", files_checked: targets.length }, null, 2));
-    Deno.exit(0);
-  } catch (e) {
-    console.error(JSON.stringify({ error: "ValidationError", message: String(e) }, null, 2));
-    Deno.exit(1);
-  }
-}
-
-function help() {
-  console.log(`Usage:
-  afo normalize [file.txt]
-  afo validate [folder|file.json]
-
-Exit codes:
-  0 = OK
-  1 = Validation Errors
-  2 = Parser/Unexpected Error`);
-  Deno.exit(0);
-}
+    return result;
+  },
+};
 
 async function main() {
-  const [cmd, target] = Deno.args;
+  const [command, ...rest] = Deno.args;
 
-  switch (cmd) {
-    case "normalize": await normalize(target); break;
-    case "validate":  await validate(target);  break;
-    default:          help();
+  if (command !== "normalize") {
+    console.error("Usage: deno run ... src/cli.ts normalize [\"DSL statement\"]");
+    Deno.exit(1);
+  }
+
+  // 1) Input: either from arguments or from STDIN
+  let input = rest.join(" ").trim();
+  if (!input) {
+    console.log("Please enter your DSL requirement (end with Ctrl+D):\n");
+    input = (await readStdin()).trim();
+  }
+
+  if (!input) {
+    console.error("❌ No input provided.");
+    Deno.exit(1);
+  }
+
+  try {
+    // 2) Parsing in RequirementAtom
+    const atom: RequirementAtom = parseRequirement(input);
+
+    // 3) Validate
+    const validation = await validateRequirement(atom);
+    // acceptance: { valid: boolean; errors: string[] }
+
+    // 4) Output result
+    console.log("\n✅ Parsed Requirement Atom:");
+    console.log(JSON.stringify(atom, null, 2));
+
+    if (validation.valid) {
+      console.log("\n✅ Validation: OK (no schema violations)");
+    } else {
+      console.log("\n⚠ Validation: FAILED");
+      for (const err of validation.errors) {
+        console.log("  - " + err);
+      }
+      Deno.exit(1);
+    }
+  } catch (err) {
+    console.error("\n❌ Parsing or validation failed:\n");
+    console.error(err instanceof Error ? err.message : String(err));
+    Deno.exit(1);
   }
 }
 
