@@ -6,10 +6,20 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 
-export interface RequirementAtom {
-    actor: string;
-    modality: "must" | "must not";
-    action: string;
+export interface RequirementEntity {
+    id: string;  // domain-level ID
+    title?: string;
+    description?: string;
+    source?: string;
+    version?: string;
+
+    // Parsed DSL
+    actor?: string;
+    modality?: string;
+    action?: string;
     condition?: string;
     result?: string;
+
+    raw?: string;
+    normalized?: string;
 }

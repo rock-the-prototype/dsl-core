@@ -17,7 +17,7 @@ import {
 } from "../errors/errors.ts";
 
 import { normalizeInput } from "./normalizer.ts";
-import { RequirementAtom } from "../types/RequirementAtom.ts";
+import { RequirementAtom } from "../types/RequirementEntity.ts";
 
 /**
  * Main parser function:
@@ -46,7 +46,8 @@ export function parseRequirement(input: string): RequirementAtom {
    *   As <actor>, I must not <...>
    */
   const actorRegex =
-    /^As\s+([A-Za-z0-9_-]+),\s+I\s+(must|must not)\s+(.+)$/i;
+    // /^As\s+([A-Za-z0-9_-]+),\s+I\s+(must|must not)\s+(.+)$/i;
+    /^As\s+(?:a|an\s+)?(?<actor>[A-Za-z0-9 _-]+),\s+I\s+(?<modality>must|must not)\s+(?<rest>.+)$/i;
 
   const actorMatch = statement.match(actorRegex);
   if (!actorMatch) {
@@ -67,7 +68,7 @@ export function parseRequirement(input: string): RequirementAtom {
   let result: string | undefined;
 
   /**
-   * Varianten:
+   * Variants:
    * 1) As a system, I must <action>
    * 2) As a system, I must <action> then <result>
    * 3) As a system, I must <action> when <condition>
@@ -77,7 +78,7 @@ export function parseRequirement(input: string): RequirementAtom {
   const [head, afterWhen] = rest.split(/\s+when\s+/i);
 
   if (!afterWhen) {
-    // kein "when" → <action> [then <result>]
+    // no "when" → <action> [then <result>]
     const [actionPart, resultPart] = head.split(/\s+then\s+/i);
     action = actionPart.trim();
     if (!action) {
@@ -87,7 +88,7 @@ export function parseRequirement(input: string): RequirementAtom {
       result = resultPart.trim();
     }
   } else {
-    // mit "when" → <action> when <condition> [then <result>]
+    // with "when" → <action> when <condition> [then <result>]
     action = head.trim();
     if (!action) {
       throw new MissingActionError();

@@ -10,7 +10,7 @@
 
 // src/cli.ts
 import { parseRequirement } from "./parser/parser.ts";
-import { RequirementAtom } from "./types/RequirementAtom.ts";
+import { RequirementAtom } from "./types/RequirementEntity.ts";
 import { validateRequirement } from "./validator/validator.ts";
 
 // Small helper function: reads entire STDIN as a string
