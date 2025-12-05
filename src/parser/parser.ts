@@ -33,7 +33,9 @@ export function parseRequirement(input: string): RequirementAtom {
   const normalized = normalizeInput(input);
 
   if (!normalized.endsWith(".")) {
-    throw new NormalizationError("Statement must end with a single period.");
+    throw new NormalizationError(
+        "Statement must end with a single period ('.')."
+    );
   }
 
   // Remove final terminator for parsing
@@ -50,8 +52,11 @@ export function parseRequirement(input: string): RequirementAtom {
     /^As\s+(?:a|an\s+)?(?<actor>[A-Za-z0-9 _-]+),\s+I\s+(?<modality>must|must not)\s+(?<rest>.+)$/i;
 
   const actorMatch = statement.match(actorRegex);
-  if (!actorMatch) {
-    throw new MissingActorError();
+
+  if (!actorMatch?.groups?.modality) {
+    throw new NormalizationError(
+        "Missing modality: use 'must' or 'must not'."
+    );
   }
 
   const actor = actorMatch[1].toLowerCase();
