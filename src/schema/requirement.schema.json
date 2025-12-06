@@ -1,30 +1,47 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "RequirementAtom",
-  "description": "Formal definition of an atomic requirement for Audit-by-Design DSL.",
+  "description": "Canonical definition of an atomic requirement (AFO) in the Audit-by-Design DSL.",
   "type": "object",
   "properties": {
     "actor": {
       "type": "string",
-      "description": "The entity performing the action (e.g. system, user, process)."
+      "minLength": 2,
+      "maxLength": 50,
+      "pattern": "^[A-Za-z0-9 _-]+$"
     },
     "modality": {
-      "enum": ["must", "must not"],
-      "description": "Defines the normative obligation according to RFC 2119."
+      "type": "string",
+      "enum": ["must", "must not"]
     },
     "action": {
       "type": "string",
-      "description": "Specifies what the actor must or must not do."
+      "minLength": 3,
+      "maxLength": 200,
+      "pattern": "^[A-Za-z0-9 ,._-]+$"
     },
     "condition": {
       "type": "string",
-      "description": "Optional condition under which the action applies."
+      "minLength": 3,
+      "maxLength": 200,
+      "pattern": "^[A-Za-z0-9 ,._-]+$"
     },
     "result": {
       "type": "string",
-      "description": "Expected outcome when the condition and action are fulfilled."
+      "minLength": 3,
+      "maxLength": 200,
+      "pattern": "^[A-Za-z0-9 ,._-]+$"
     }
   },
   "required": ["actor", "modality", "action"],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "examples": [
+    {
+      "actor": "system",
+      "modality": "must",
+      "action": "validate the access token",
+      "condition": "upon receiving a request",
+      "result": "log success or failure"
+    }
+  ]
 }
