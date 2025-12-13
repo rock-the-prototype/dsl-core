@@ -159,7 +159,9 @@ I SHOULD validate authentication requests and log user behavior
   ]
 }
 ```
-Note: The requirement is rejected due to an atomicity violation and the use of the modal verb SHOULD, which does not express a binding requirement.
+Note: 1) The requirement is rejected due to an atomicity violation. 2) Only binding modal verbs result in valid requirements. 
+
+**DSL core validates requirements against a formally defined rule set (schema) and applies deterministic validation logic to identify structural, semantic, and normative violations.**
 
 ---
 
