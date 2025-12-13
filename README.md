@@ -1,5 +1,5 @@
 # Audit-by-Design DSL — DSL Core
-*DSL Core** is the open standard specification that allows software requirements to be defined in a formal, revision-proof, machine-readable, and versioned manner — providing a deterministic and auditable foundation for regulated and trustworthy digital systems.
+**DSL Core** is the open standard specification that allows software requirements to be defined in a formal, revision-proof, machine-readable, and versioned manner — providing a deterministic and auditable foundation for regulated and trustworthy digital systems.
 
 ---
 
