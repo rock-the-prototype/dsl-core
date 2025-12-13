@@ -1,17 +1,7 @@
-# dsl-core
-Core Specification for the **Audit-by-Design DSL**  - Human- and machine-readable domain-specific language (DSL) for defining, validating, and auditing atomic **requirements** (AFOs) in regulated software environments. Open specification, free to use and extend.
+# Audit-by-Design DSL — DSL Core
+*DSL Core** is the open standard specification that allows software requirements to be defined in a formal, revision-proof, machine-readable, and versioned manner — providing a deterministic and auditable foundation for regulated and trustworthy digital systems.
 
-**DSL core** is the  open standard that, for the first time, allows software requirements to be defined in a formal, revision-proof, machine-readable, and versioned manner — providing a deterministic and auditable foundation for regulated and trustworthy digital systems.
-
-** DSL Core principles**
-
-- DSL as a formal artifact → machine readability, deterministic validation, and auditability
-
-- Git as the underlying infrastructure → proven, revision-safe versioning and traceability
-
-- Open-source commitment → global interoperability and freedom from vendor lock-in
-
-- Kerkhoff’s principle → transparency, traceability, and verifiability by design
+---
 
 ## Rationale
 
@@ -23,7 +13,46 @@ Without verifiability, trust cannot be established.
 
 This is a matter of logical necessity.
 
+---
+
+## Purpose
+This repository contains the **normative core implementation** of the Audit-by-Design DSL.
+
+While the DSL specification defines *how requirements are expressed*,  
+`dsl-core` defines **what is considered valid, consistent, and auditable**.
+
+It provides the executable semantics required to:
+
+- parse DSL statements
+- validate syntax and structure
+- enforce semantic and consistency rules
+- normalize atomic requirements (AFOs)
+- produce deterministic validation results
+- serve as the technical reference for tooling, automation, and audits
+
+This repository does **not** generate secure code.  
+It defines the **precondition under which secure and auditable software becomes possible**.
+
+---
+
+**DSL-Core** is an **open specification**, **free to use and extend**.
 An open, formal, machine-readable, version-safe standard for requirements is the only proven means of ensuring secure digitization.
+
+for the **Audit-by-Design DSL**  - Human- and machine-readable **D**omain-**S**pecific **L**anguage (DSL) for *defining*, *validating*, and *auditing* atomic **requirements** (AFOs) in regulated software environments. 
+
+**DSL core** is the  open standard that, for the first time, allows software requirements to be defined in a formal, revision-proof, machine-readable, and versioned manner — providing a deterministic and auditable foundation for regulated and trustworthy digital systems.
+
+
+
+**DSL Core principles**
+
+- DSL as a formal artifact → machine readability, deterministic validation, and auditability
+
+- Git as the underlying infrastructure → proven, revision-safe versioning and traceability
+
+- Open-source commitment → global interoperability and freedom from vendor lock-in
+
+- Kerkhoff’s principle → transparency, traceability, and verifiability by design
 
 ## MVP-Based, Iterative Development
 
@@ -51,7 +80,78 @@ Each MVP builds on the previous one — keeping complexity low,
 but transparency and auditability high.
 
 
-## License
+## Scope
+
+`dsl-core` focuses exclusively on **requirements validation**, not on implementation.
+
+In scope:
+- formal parsing of DSL artifacts
+- deterministic validation rules
+- consistency and contradiction detection
+- normalization of atomic requirements
+- machine-verifiable audit outputs
+
+Out of scope:
+- application logic
+- user interfaces
+- security scanning of source code
+- code generation
+- runtime enforcement
+
+---
+
+## Relation to dsl-docs
+
+| Repository  | Responsibility |
+|------------|----------------|
+| `dsl-docs` | Human-readable DSL specification (concepts, grammar, semantics, rationale) |
+| `dsl-core` | Machine-enforceable reference implementation (parsing, validation, normalization) |
+
+The specification is **normative in text**.  
+`dsl-core` is **normative in execution**.
+
+If a requirement is accepted by `dsl-core`, it is considered **formally valid by definition of the standard**.
+
+---
+
+## Typical Use Cases
+
+- Validate requirements in CI/CD pipelines
+- Detect contradictions before implementation starts
+- Enforce atomicity and testability of requirements
+- Generate reproducible audit evidence
+- Support regulated software development (e.g. health, government, critical infrastructure)
+- Constrain AI-generated requirements or acceptance criteria using formal rules
+
+---
+
+## Architecture Overview
+
+The core is designed as a composable validation pipeline:
+
+- **Parser** → transforms DSL input into a structured representation
+- **Normalizer** → enforces atomicity and canonical form
+- **Validator** → applies deterministic syntax and semantic rules
+- **Report Generator** → produces machine-readable validation and audit output
+
+Each component is designed to be usable independently or as part of automated toolchains.
+
+---
+
+## Status
+
+`dsl-core` is under active development and evolves alongside the DSL specification.
+
+Breaking changes are treated as **standard changes**, not as refactorings, and are documented accordingly.
+
+---
+
+## Philosophy
+
+> Requirements must be explicit before software can be trusted.  
+> Validation must be automated before trust can scale.
+
+---
 
 ## License
 
