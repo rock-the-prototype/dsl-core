@@ -36,7 +36,7 @@ It defines the **precondition under which secure and auditable software becomes 
 ---
 
 **DSL-Core** is an **open specification**, **free to use and extend**.
-An open, formal, machine-readable, version-safe standard for requirements is the only proven means of ensuring secure digitization.
+An open, formal, machine-readable, version-safe standard for requirements is one critical foundation for building secure and auditable systems.
 
 for the **Audit-by-Design DSL**  - Human- and machine-readable **D**omain-**S**pecific **L**anguage (DSL) for *defining*, *validating*, and *auditing* atomic **requirements** (AFOs) in regulated software environments. 
 
@@ -66,19 +66,102 @@ This iterative prototypical approach ensures:
 - **Continuous feedback loops** between specification (`dsl-docs`) and implementation (`dsl-core`)  
 - **Full traceability** from every change in grammar to its technical representation
 
-### MVP Milestones
+## Core Scope and Evolution
 
-| Version | Focus | Outcome |
-|----------|--------|----------|
-| **MVP 1** | Basic parsing and normalization | Human-readable sentences converted to JSON |
-| **MVP 2** | Schema-based validation | Requirements validated against JSON Schema |
-| **MVP 3** | Error diagnostics | Parser provides structured error codes and line references |
-| **MVP 4** | Audit hooks | CI/CD integration and compliance reports |
-| **MVP 5** | CLI and API layer | Local validation and remote audit endpoints |
+The core evolves incrementally, following a minimal and strictly layered approach.
+Each stage adds capabilities without changing the fundamental semantics of the DSL.
 
-Each MVP builds on the previous one — keeping complexity low,  
-but transparency and auditability high.
+### Current focus
 
+- Formal parsing of DSL artifacts
+- Deterministic normalization of atomic requirements (AFOs)
+- Structural and semantic validation
+- Machine-readable validation and audit output
+
+### Planned extensions
+
+- CLI and API layers for toolchain integration
+- CI/CD integration (e.g. GitHub Actions)
+- Standardized audit report formats
+- Reference adapters for downstream tooling
+
+All extensions are required to preserve backward compatibility at the semantic level.
+Breaking changes are treated as **standard revisions**, not refactorings.
+
+## Relation to dsl-docs
+
+The Audit-by-Design DSL is defined across two complementary repositories:
+
+| Repository  | Responsibility |
+|------------|----------------|
+| `dsl-docs` | Human-readable specification of the DSL (concepts, grammar, semantics, rationale) |
+| `dsl-core` | Machine-enforceable reference implementation (parsing, normalization, validation) |
+
+The specification is **normative in text**.
+`dsl-core` is **normative in execution**.
+
+A requirement that is accepted by `dsl-core` is considered formally valid
+according to the current version of the standard.
+
+
+### Input (DSL)
+
+## Example
+
+The following example shows what the DSL core currently validates
+based on the formally defined grammar and validation rules.
+
+### Input (DSL)
+
+```dsl
+AFO REQ-001
+AS System
+I MUST validate authentication requests
+```
+
+👉 **Deterministic validation with reproducible output**
+
+## Validation result (machine-readable and human readable)
+```dsl 
+{
+  "id": "REQ-001",
+  "type": "AFO",
+  "status": "valid",
+  "structure": {
+    "actor": "System",
+    "modal_verb": "MUST",
+    "action": "validate authentication requests"
+  },
+  "validation": {
+    "syntax": "ok",
+    "atomicity": "ok",
+    "ambiguity": "none",
+    "contradictions": []
+  }
+}
+```
+
+### Example: invalid requirement
+
+```json
+AFO REQ-002
+AS System
+I SHOULD validate authentication requests and log user behavior
+
+{
+  "id": "REQ-002",
+  "status": "invalid",
+  "errors": [
+    {
+      "type": "atomicity_violation",
+      "message": "Multiple actions detected in a single requirement"
+    }
+  ]
+}
+```
+Note: The requirement is rejected due to an atomicity violation and the use of the modal verb SHOULD, which does not express a binding requirement.
+
+---
 
 ## Scope
 
@@ -100,19 +183,6 @@ Out of scope:
 
 ---
 
-## Relation to dsl-docs
-
-| Repository  | Responsibility |
-|------------|----------------|
-| `dsl-docs` | Human-readable DSL specification (concepts, grammar, semantics, rationale) |
-| `dsl-core` | Machine-enforceable reference implementation (parsing, validation, normalization) |
-
-The specification is **normative in text**.  
-`dsl-core` is **normative in execution**.
-
-If a requirement is accepted by `dsl-core`, it is considered **formally valid by definition of the standard**.
-
----
 
 ## Typical Use Cases
 
