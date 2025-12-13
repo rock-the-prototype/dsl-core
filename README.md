@@ -1,5 +1,29 @@
 # dsl-core
-Core Specification for the Audit-by-Design DSL - Human- and machine-readable domain-specific language (DSL) for defining, validating, and auditing atomic requirements (AFOs) in regulated software environments. Open specification, free to use and extend.
+Core Specification for the **Audit-by-Design DSL**  - Human- and machine-readable domain-specific language (DSL) for defining, validating, and auditing atomic **requirements** (AFOs) in regulated software environments. Open specification, free to use and extend.
+
+**DSL core** is the  open standard that, for the first time, allows software requirements to be defined in a formal, revision-proof, machine-readable, and versioned manner — providing a deterministic and auditable foundation for regulated and trustworthy digital systems.
+
+** DSL Core principles**
+
+- DSL as a formal artifact → machine readability, deterministic validation, and auditability
+
+- Git as the underlying infrastructure → proven, revision-safe versioning and traceability
+
+- Open-source commitment → global interoperability and freedom from vendor lock-in
+
+- Kerkhoff’s principle → transparency, traceability, and verifiability by design
+
+## Rationale
+
+**Trustworthy digital systems** must be built on validated requirements as a fundamental layer of every implementation. Software must be based on requirements that are consistently validated and free of contradictions.
+
+Without formal semantics, requirements cannot be reliably validated.
+Without reliable validation, security properties cannot be verified.
+Without verifiability, trust cannot be established.
+
+This is a matter of logical necessity.
+
+An open, formal, machine-readable, version-safe standard for requirements is the only proven means of ensuring secure digitization.
 
 ## MVP-Based, Iterative Development
 
