@@ -1,0 +1,54 @@
+{
+  "version": "1.0.0",
+  "appliesTo": "AFO",
+  "rules": [
+    {
+      "id": "AFO-ATOMICITY-001",
+      "title": "Atomicity",
+      "description": "An atomic requirement MUST describe exactly one action.",
+      "severity": "error",
+      "field": "action",
+      "constraint": "single_action"
+    },
+    {
+      "id": "AFO-MODALITY-001",
+      "title": "Binding Modality",
+      "description": "Only binding modal verbs are allowed for atomic requirements.",
+      "severity": "error",
+      "field": "modality",
+      "allowedValues": ["must", "must not"]
+    },
+    {
+      "id": "AFO-ACTOR-001",
+      "title": "Explicit Actor",
+      "description": "An atomic requirement MUST specify a single, explicit actor.",
+      "severity": "error",
+      "field": "actor",
+      "constraint": "single_actor"
+    },
+    {
+      "id": "AFO-ACTION-001",
+      "title": "Action Clarity",
+      "description": "The action MUST be expressed as a clear verb phrase and MUST NOT contain multiple verbs.",
+      "severity": "error",
+      "field": "action",
+      "constraint": "single_verb_phrase"
+    },
+    {
+      "id": "AFO-CONDITION-001",
+      "title": "Optional Condition",
+      "description": "Conditions are optional, but if present MUST describe a single triggering context.",
+      "severity": "error",
+      "field": "condition",
+      "constraint": "single_condition"
+    },
+    {
+      "id": "AFO-RESULT-001",
+      "title": "Result Consistency",
+      "description": "If a result is specified, it MUST describe a single, observable outcome.",
+      "severity": "error",
+      "field": "result",
+      "constraint": "single_result"
+    }
+  ]
+}
