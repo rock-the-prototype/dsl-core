@@ -11,7 +11,7 @@
 // src/cli.ts
 import { parseRequirement } from "./parser/parser.ts";
 import { RequirementAtom } from "./types/RequirementEntity.ts";
-import { validateRequirement } from "./validator/validator.ts";
+import { validateRequirement } from "./validation/validator.ts";
 
 // Small helper function: reads entire STDIN as a string
 async function readStdin(): Promise<string> {

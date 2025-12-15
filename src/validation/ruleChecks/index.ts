@@ -6,6 +6,5 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 
-// ruleEngine.ts
 export { checkAtomicity } from "./atomicity";
 export { checkModality } from "./modality";

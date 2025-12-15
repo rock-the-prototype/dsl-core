@@ -13,7 +13,7 @@
 
 import { normalizeInput } from "../parser/normalizer.ts";
 import { parseRequirement } from "../parser/parser.ts";
-import { validateRequirementAtom } from "../validator/validator.ts";
+import { validateRequirementAtom } from "../validation/validator.ts";
 
 export interface RequirementAtom {
   actor: string;

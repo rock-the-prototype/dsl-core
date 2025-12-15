@@ -1,7 +1,7 @@
 // tests/validator.test.ts
 
 import { assertEquals, assert } from "https://deno.land/std/testing/asserts.ts";
-import { validateRequirement } from "../src/validator/validator.ts";
+import { validateRequirement } from "../src/validation/validator.ts";
 
 Deno.test("Validator accepts a valid Requirement Atom", () => {
   const atom = {
