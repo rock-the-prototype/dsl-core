@@ -7,5 +7,14 @@
  */
 
 // ruleEngine.ts
-export { checkAtomicity } from "./atomicity";
-export { checkModality } from "./modality";
+import { RequirementAtom } from "../types";
+import { ValidationError } from "./types";
+import { checkActor, checkAtomicity, checkModality } from "./ruleChecks";
+
+export function applyRules(afo: RequirementAtom): ValidationError[] {
+    return [
+        ...checkActor(afo),
+        ...checkAtomicity(afo),
+        ...checkModality(afo)
+    ];
+}
