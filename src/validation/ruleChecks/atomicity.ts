@@ -6,8 +6,8 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 
-import { ValidationError } from "../types";
-import { RequirementAtom } from "../../types";
+import type { ValidationError } from "../types.ts";
+import type { RequirementAtom } from "../../types/RequirementAtom.ts";
 
 export function checkAtomicity(afo: RequirementAtom): ValidationError[] {
     const errors: ValidationError[] = [];

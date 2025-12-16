@@ -6,5 +6,7 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 
-export { checkAtomicity } from "./atomicity";
-export { checkModality } from "./modality";
+export { checkStructure } from "./structure.ts";
+export { checkActor } from "./actor.ts";
+export { checkAtomicity } from "./atomicity.ts";
+export { checkModality } from "./modality.ts";
