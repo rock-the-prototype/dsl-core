@@ -7,9 +7,15 @@ By making requirements git versioned, explicit, verifiable, and traceable over t
 
 ```mermaid
 flowchart TD
-    A[DSL Input] --> B[Grammar / Parser<br/>(Existence)]
-    B -->|valid only| C[Rule Validation<br/>(Quality)]
-    C --> D[Audit-Ready Requirement Atom]
+    A[DSL Input]
+    B["Grammar / Parser\n(Existence)"]
+    C["Rule Validation\n(Quality)"]
+    D[Audit-Ready Requirement Atom]
+
+    A --> B
+    B -->|valid only| C
+    C --> D
+
 ```
 
 
