@@ -3,6 +3,27 @@
 
 By making requirements git versioned, explicit, verifiable, and traceable over time, DSL Core establishes the normative baseline against which implementations can be systematically audited.
 
+## Architecture Overview
+
+DSL Input
+   |
+   v
++-------------------+
+|  Grammar / Parser |
+|  (Existence)      |
++-------------------+
+        |
+        | valid only
+        v
++-------------------+
+| Rules & Validation|
+| (Quality)         |
++-------------------+
+        |
+        v
+Audit-Ready Requirement Atom
+
+
 ---
 
 ## Rationale
