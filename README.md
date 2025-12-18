@@ -1,5 +1,7 @@
 # Audit-by-Design DSL — DSL Core
-**DSL Core** is the open standard specification that allows software requirements to be defined in a formal, revision-proof, machine-readable, and versioned manner — providing a deterministic and auditable foundation for regulated and trustworthy digital systems.
+**DSL Core** is the open standard specification that allows software requirements to be defined in a formal, revision-proof, machine-readable, and versioned manner — providing a deterministic and auditable foundation for regulated and trustworthy digital systems. 
+
+By making requirements git versioned, explicit, verifiable, and traceable over time, DSL Core establishes the normative baseline against which implementations can be systematically audited.
 
 ---
 
@@ -18,8 +20,7 @@ This is a matter of logical necessity.
 ## Purpose
 This repository contains the **normative core implementation** of the Audit-by-Design DSL.
 
-While the DSL specification defines *how requirements are expressed*,  
-`dsl-core` defines **what is considered valid, consistent, and auditable**.
+While the DSL specification defines *how requirements are expressed*, `dsl-core` defines **what is considered valid, consistent, and auditable**.
 
 It provides the executable semantics required to:
 
@@ -30,8 +31,7 @@ It provides the executable semantics required to:
 - produce deterministic validation results
 - serve as the technical reference for tooling, automation, and audits
 
-This repository does **not** generate secure code.  
-It defines the **precondition under which secure and auditable software becomes possible**.
+This repository defines the **precondition under which secure and auditable software becomes possible**.
 
 ---
 
