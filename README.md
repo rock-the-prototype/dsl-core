@@ -29,6 +29,14 @@ flowchart TD
     C --> D
 
 ```
+### **DSL core** is designed as a composable validation pipeline:
+
+- **Parser** → transforms DSL input into a structured representation
+- **Normalizer** → enforces atomicity and canonical form
+- **Validator** → applies deterministic syntax and semantic rules
+- **Report Generator** → produces machine-readable validation and audit output
+
+Each component is designed to be usable independently or as part of automated toolchains.
 
 ---
 
@@ -212,18 +220,7 @@ Out of scope:
 
 ---
 
-## Architecture Overview
 
-The core is designed as a composable validation pipeline:
-
-- **Parser** → transforms DSL input into a structured representation
-- **Normalizer** → enforces atomicity and canonical form
-- **Validator** → applies deterministic syntax and semantic rules
-- **Report Generator** → produces machine-readable validation and audit output
-
-Each component is designed to be usable independently or as part of automated toolchains.
-
----
 
 ## Status
 
