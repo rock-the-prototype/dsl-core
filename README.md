@@ -5,23 +5,12 @@ By making requirements git versioned, explicit, verifiable, and traceable over t
 
 ## Architecture Overview
 
-DSL Input
-   |
-   v
-+-------------------+
-|  Grammar / Parser |
-|  (Existence)      |
-+-------------------+
-        |
-        | valid only
-        v
-+-------------------+
-| Rules & Validation|
-| (Quality)         |
-+-------------------+
-        |
-        v
-Audit-Ready Requirement Atom
+```mermaid
+flowchart TD
+    A[DSL Input] --> B[Grammar / Parser<br/>(Existence)]
+    B -->|valid only| C[Rule Validation<br/>(Quality)]
+    C --> D[Audit-Ready Requirement Atom]
+```
 
 
 ---
