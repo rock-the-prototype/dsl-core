@@ -3,6 +3,18 @@
 
 By making requirements git versioned, explicit, verifiable, and traceable over time, DSL Core establishes the normative baseline against which implementations can be systematically audited.
 
+---
+
+## Rationale
+
+**Trustworthy digital systems** must be built on validated requirements as a fundamental layer of every implementation. Software must be based on requirements that are consistently validated and free of contradictions.
+
+Without formal semantics, requirements cannot be reliably validated.
+Without reliable validation, security properties cannot be verified.
+Without verifiability, trust cannot be established.
+
+This is a matter of logical necessity.
+
 ## Architecture Overview
 
 ```mermaid
@@ -17,19 +29,6 @@ flowchart TD
     C --> D
 
 ```
-
-
----
-
-## Rationale
-
-**Trustworthy digital systems** must be built on validated requirements as a fundamental layer of every implementation. Software must be based on requirements that are consistently validated and free of contradictions.
-
-Without formal semantics, requirements cannot be reliably validated.
-Without reliable validation, security properties cannot be verified.
-Without verifiability, trust cannot be established.
-
-This is a matter of logical necessity.
 
 ---
 
