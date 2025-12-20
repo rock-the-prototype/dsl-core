@@ -220,6 +220,35 @@ Out of scope:
 
 ---
 
+## Normative Grammar Rules
+
+The DSL follows a two-layer model:
+
+- **Layer A — Grammar / Parser (Existence):** decides whether a requirement exists in a valid, canonical form.
+- **Layer B — Rules / Validation (Quality):** evaluates quality properties (e.g., atomicity, actor quality, binding modality) only after parsing succeeded.
+
+### Canonical form (normative)
+
+A requirement is canonical if it matches the following structure:
+
+
+### Accepted input variants
+
+For usability, the parser supports two equivalent input families:
+
+1) **With role prefix (`As ...`) — subject is mandatory**
+
+2) **Without role prefix — subject may be implicit**
+
+
+### Rejected structures (non-normative)
+
+The parser rejects ambiguous or incomplete structures, e.g.:
+
+- Missing subject after an `As <Actor>,` prefix:
+
+Rationale: Introducing a requirement with `As <Actor>,` must explicitly state the subject (`I` / `we`) to avoid implicit meaning and preserve deterministic auditability.
+
 
 
 ## Status
