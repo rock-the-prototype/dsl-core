@@ -48,25 +48,26 @@ export function parseRequirement(input: string): RequirementAtom {
    *   As <actor>, I must not <...>
    */
   const actorRegex =
-    // /^As\s+([A-Za-z0-9_-]+),\s+I\s+(must|must not)\s+(.+)$/i;
-    /^As\s+(?:a|an\s+)?(?<actor>[A-Za-z0-9 _-]+),\s+I\s+(?<modality>must|must not)\s+(?<rest>.+)$/i;
+      /^(?:as\s+)?(?<actor>[A-Za-z0-9 _-]+),?\s+(?:i|we)?\s*(?<modality>must not|must)\s+(?<rest>.+)$/i;
 
   const actorMatch = statement.match(actorRegex);
 
-  if (!actorMatch?.groups?.modality) {
+  if (!actorMatch?.groups) {
     throw new NormalizationError(
         "Missing modality: use 'must' or 'must not'."
     );
   }
 
-  const actor = actorMatch[1].toLowerCase();
-  const modalityRaw = actorMatch[2].toLowerCase();
-  let rest = actorMatch[3].trim();
+  const actor = actorMatch.groups.actor.trim().toLowerCase();
+  const modalityRaw = actorMatch.groups.modality.toLowerCase();
+  let rest = actorMatch.groups.rest.trim();
 
   if (modalityRaw !== "must" && modalityRaw !== "must not") {
     throw new InvalidModalityError(modalityRaw);
   }
+
   const modality = modalityRaw as "must" | "must not";
+
 
   let action = "";
   let condition: string | undefined;
