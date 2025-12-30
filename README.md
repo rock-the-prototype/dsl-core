@@ -66,6 +66,21 @@ for the **Audit-by-Design DSL**  - Human- and machine-readable **D**omain-**S**p
 **DSL core** is the  open standard that, for the first time, allows software requirements to be defined in a formal, revision-proof, machine-readable, and versioned manner — providing a deterministic and auditable foundation for regulated and trustworthy digital systems.
 
 
+## Public Schema Contracts
+
+`dsl-core` exposes **public JSON Schema contracts** for its machine-consumable outputs.
+These contracts are located in:
+
+- `schemas/report.schema.json`
+- `schemas/SCHEMA_CONTRACTS.md` (contract scope, stability, versioning)
+
+The contracts are designed for CI pipelines, audit evidence artifacts, and downstream tooling (e.g. job/opportunity generation).
+
+## Internal Engine Models
+
+Internal implementation structures live under `src/model/**` and are **not** public contracts.
+Only the JSON Schemas under `schemas/**` define stable integration contracts.
+
 
 **DSL Core principles**
 
@@ -93,6 +108,16 @@ This iterative prototypical approach ensures:
 
 The core evolves incrementally, following a minimal and strictly layered approach.
 Each stage adds capabilities without changing the fundamental semantics of the DSL.
+
+### Reference CLI (engine access)
+
+`dsl-core` includes a minimal reference CLI for deterministic validation and reporting:
+
+- `dsl validate …`
+- `dsl report …`
+
+The CLI is a thin adapter over the engine and does not include orchestration or collaboration logic.
+
 
 ### Current focus
 
