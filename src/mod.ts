@@ -1,2 +1,3 @@
-export type { ValidationReport } from "./types/report.ts"; // wherever report type is located
-export { validateText, validateFile, validatePath, generateReport } from "./validation/public_api.ts";
+// src/mod.ts
+export type { StatementValidation, FileValidation } from "./api/public_api.ts";
+export { validateText, validateFile, validatePath } from "./api/public_api.ts";
