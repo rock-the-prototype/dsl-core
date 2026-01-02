@@ -1,9 +1,36 @@
+/*
+ * Copyright 2026 Sascha Block
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 // src/api/public_api.ts
 
 import { parseRequirement } from "../parser/parser.ts";
 import { validateRequirement } from "../validation/validator.ts";
 import type { RequirementAtom } from "../types/RequirementEntity.ts";
 import type { ValidationResult } from "../validation/validator.ts";
+import { buildReport } from "../report/buildReport.ts";
+import type { DslCoreReport } from "../report/buildReport.ts";
+
+const ENGINE_VERSION = "0.0.0-dev";
+
+export async function generateReport(
+  targetPath: string,
+  opts?: { engineVersion?: string; gitSha?: string; gitRef?: string; now?: Date },
+): Promise<DslCoreReport> {
+  const files = await validatePath(targetPath);
+
+  return buildReport(files, {
+    targetPath,
+    engineVersion: opts?.engineVersion ?? ENGINE_VERSION,
+    gitSha: opts?.gitSha,
+    gitRef: opts?.gitRef,
+    now: opts?.now,
+  });
+}
 
 export type StatementValidation = {
   input: string;
