@@ -1,0 +1,145 @@
+/*
+ * Copyright 2026 Sascha Block
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rock-the-prototype.github.io/dsl-core/schemas/report.schema.json",
+  "title": "dsl-core Validation Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "engine", "generatedAt", "target", "summary", "files"],
+  "properties": {
+    "contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "schema"],
+      "properties": {
+        "name": { "type": "string", "const": "dsl-core.report" },
+        "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        "schema": { "type": "string", "const": "schemas/report.schema.json" }
+      }
+    },
+    "engine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "type": "string", "const": "dsl-core" },
+        "version": { "type": "string" },
+        "git": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sha"],
+          "properties": {
+            "sha": { "type": "string" },
+            "ref": { "type": "string" }
+          }
+        }
+      }
+    },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "kind"],
+      "properties": {
+        "path": { "type": "string" },
+        "kind": { "type": "string", "enum": ["file", "dir", "stdin"] }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["files", "statements", "valid", "invalid", "parseErrors"],
+      "properties": {
+        "files": { "type": "integer", "minimum": 0 },
+        "statements": { "type": "integer", "minimum": 0 },
+        "valid": { "type": "integer", "minimum": 0 },
+        "invalid": { "type": "integer", "minimum": 0 },
+        "parseErrors": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "counts", "statements"],
+        "properties": {
+          "path": { "type": "string" },
+          "counts": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["statements", "valid", "invalid", "parseErrors"],
+            "properties": {
+              "statements": { "type": "integer", "minimum": 0 },
+              "valid": { "type": "integer", "minimum": 0 },
+              "invalid": { "type": "integer", "minimum": 0 },
+              "parseErrors": { "type": "integer", "minimum": 0 }
+            }
+          },
+          "statements": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["source"],
+              "properties": {
+                "source": { "type": "string" },
+                "input": { "type": "string" },
+
+                "atom": {
+                  "type": "object",
+                  "additionalProperties": true
+                },
+
+                "validation": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["valid", "errors"],
+                  "properties": {
+                    "valid": { "type": "boolean" },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          { "type": "string" },
+                          { "type": "object", "additionalProperties": true }
+                        ]
+                      }
+                    }
+                  }
+                },
+
+                "error": {
+                  "anyOf": [
+                    { "type": "string" },
+                    {
+                      "type": "object",
+                      "additionalProperties": true,
+                      "required": ["message"],
+                      "properties": {
+                        "name": { "type": "string" },
+                        "message": { "type": "string" }
+                      }
+                    }
+                  ]
+                },
+
+                "extensions": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
