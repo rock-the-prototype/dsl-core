@@ -63,7 +63,7 @@ An open, formal, machine-readable, version-safe standard for requirements is one
 
 for the **Audit-by-Design DSL**  - Human- and machine-readable **D**omain-**S**pecific **L**anguage (DSL) for *defining*, *validating*, and *auditing* atomic **requirements** (AFOs) in regulated software environments. 
 
-**DSL core** is the  open standard that, for the first time, allows software requirements to be defined in a formal, revision-proof, machine-readable, and versioned manner — providing a deterministic and auditable foundation for regulated and trustworthy digital systems.
+**DSL core** is the  open standard that allows requirements to be validated deterministically and to emit reproducible audit evidence. That leads to trustfull artifacts based on software requirements to be defined in a formal, revision-proof, machine-readable, and versioned manner — providing a deterministic and auditable foundation for regulated and trustworthy digital systems.
 
 
 ## Public Schema Contracts
