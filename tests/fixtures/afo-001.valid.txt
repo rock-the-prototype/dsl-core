@@ -1,0 +1,3 @@
+AFO REQ-001
+AS System
+I MUST validate authentication requests
