@@ -1,0 +1,1 @@
+AFO REQ-002 AS System I SHOULD validate authentication requests and log user behavior.
