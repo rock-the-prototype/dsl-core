@@ -51,37 +51,29 @@ Each component is designed to be usable independently or as part of automated to
 
 ```mermaid
 flowchart TB
-  %% Shared pipeline (Concrete -> AST -> Canonical -> Validate -> Evidence)
-  subgraph S[DSL Core Pipeline (shared for all artifact types)]
-    A[Untrusted Input<br/>Concrete Syntax] --> P[Parser]
-    P --> T[AST = Abstract Syntax Tree<br/>Structured interpretation + source locations]
-    T --> N[Normalizer<br/>Canonicalization / determinism]
-    N --> C[Canonical Model<br/>Artifact Atom (machine-readable)]
-    C --> V[Validator]
-    V --> SV[Schema Validation<br/>(Form / structure)]
-    V --> RV[Rule Validation<br/>(Meaning / quality / consistency)]
-    SV --> R[Report Generator<br/>Deterministic evidence report<br/>(rule IDs + findings + locations + exit codes)]
+  subgraph S["DSL Core Pipeline — shared for all artifact types"]
+    A["Untrusted Input<br/>Concrete Syntax"] --> P["Parser"]
+    P --> T["AST (Abstract Syntax Tree)<br/>Structured interpretation + source locations"]
+    T --> N["Normalizer<br/>Canonicalization / determinism"]
+    N --> C["Canonical Model<br/>Artifact Atom (machine-readable)"]
+    C --> V["Validator"]
+    V --> SV["Schema Validation<br/>(Form / structure)"]
+    V --> RV["Rule Validation<br/>(Meaning / quality / consistency)"]
+    SV --> R["Report Generator<br/>Deterministic evidence report<br/>(rule IDs + findings + locations + exit codes)"]
     RV --> R
   end
 
-  %% Artifact types (two domains, same mechanics)
-  subgraph A1[Artifact Type: Verified Requirement Atom]
-    I1[Requirement Input<br/>(Concrete Syntax)] --> A
-    C --> O1[Canonical Requirement Atom]
-    RV --> RR1[Requirement Rules<br/>(atomicity, testability, consistency, contradictions)]
+  subgraph A1["Artifact Type — Verified Requirement Atom"]
+    I1["Requirement Input<br/>(Concrete Syntax)"] --> A
+    O1["Canonical Requirement Atom"] -.-> SV
+    RR1["Requirement Rules<br/>(atomicity, testability, consistency, contradictions)"] -.-> RV
   end
 
-  subgraph A2[Artifact Type: Verified Architecture Decision Record as Code]
-    I2[Decision Input (ADR)<br/>(Concrete Syntax)] --> A
-    C --> O2[Canonical Decision Atom (ADR)]
-    RV --> RR2[ADR Rules<br/>(completeness, status logic, scope, supersedes chain, traceability)]
+  subgraph A2["Artifact Type — Verified Architecture Decision Record as Code"]
+    I2["Decision Input (ADR)<br/>(Concrete Syntax)"] --> A
+    O2["Canonical Decision Atom (ADR)"] -.-> SV
+    RR2["ADR Rules<br/>(completeness, status logic, scope, supersedes chain, traceability)"] -.-> RV
   end
-
-  %% Clarify that schemas/rules differ per artifact type
-  O1 --> SV
-  O2 --> SV
-  RR1 --> RV
-  RR2 --> RV
 ```
 
 ---
