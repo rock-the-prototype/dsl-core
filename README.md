@@ -1,7 +1,16 @@
 # Audit-by-Design DSL — DSL Core
-**DSL Core** is the open standard specification that allows software requirements to be defined in a formal, revision-proof, machine-readable, and versioned manner — providing a deterministic and auditable foundation for regulated and trustworthy digital systems. 
+**DSL Core** is the open standard specification and validation engine that turns **software engineering artifacts** into **verified**, **git-versioned**, **machine-readable records** — deterministic, traceable, and **audit-ready by design**.
 
-By making requirements git versioned, explicit, verifiable, and traceable over time, DSL Core establishes the normative baseline against which implementations can be systematically audited.
+By making requirements git versioned, explicit, verifiable, and traceable over time, DSL Core establishes the normative baseline against which implementations can be systematically audited allowing trustworthy digital systems.
+
+## DSL Core is an open standard  
+
+**DSL Core** is an open standard and tooling stack for producing verified, revision-proof, machine-readable engineering artifacts — enabling deterministic traceability and audit-ready evidence for regulated and trustworthy digital systems.
+
+By normalizing inputs into canonical records and validating them against explicit schemas and rules, DSL Core provides the normative baseline for systematic audits across requirements, architecture decisions (ADRs), and related compliance artifacts.
+
+It defines canonical schemas and quality rules for artifacts such as requirements, decisions (ADRs), and other architecture and compliance evidence — establishing a normative baseline against which implementations can be systematically verified.
+
 
 ---
 
@@ -14,6 +23,8 @@ Without reliable validation, security properties cannot be verified.
 Without verifiability, trust cannot be established.
 
 This is a matter of logical necessity.
+
+With *DSL Core' we transform untrusted inputs into verified, canonical evidence records—whether requirements, architecture decisions (ADRs), or other audit artifacts.
 
 ## Architecture Overview
 
@@ -37,6 +48,41 @@ flowchart TD
 - **Report Generator** → produces machine-readable validation and audit output
 
 Each component is designed to be usable independently or as part of automated toolchains.
+
+```mermaid
+flowchart TB
+  %% Shared pipeline (Concrete -> AST -> Canonical -> Validate -> Evidence)
+  subgraph S[DSL Core Pipeline (shared for all artifact types)]
+    A[Untrusted Input<br/>Concrete Syntax] --> P[Parser]
+    P --> T[AST = Abstract Syntax Tree<br/>Structured interpretation + source locations]
+    T --> N[Normalizer<br/>Canonicalization / determinism]
+    N --> C[Canonical Model<br/>Artifact Atom (machine-readable)]
+    C --> V[Validator]
+    V --> SV[Schema Validation<br/>(Form / structure)]
+    V --> RV[Rule Validation<br/>(Meaning / quality / consistency)]
+    SV --> R[Report Generator<br/>Deterministic evidence report<br/>(rule IDs + findings + locations + exit codes)]
+    RV --> R
+  end
+
+  %% Artifact types (two domains, same mechanics)
+  subgraph A1[Artifact Type: Verified Requirement Atom]
+    I1[Requirement Input<br/>(Concrete Syntax)] --> A
+    C --> O1[Canonical Requirement Atom]
+    RV --> RR1[Requirement Rules<br/>(atomicity, testability, consistency, contradictions)]
+  end
+
+  subgraph A2[Artifact Type: Verified Architecture Decision Record as Code]
+    I2[Decision Input (ADR)<br/>(Concrete Syntax)] --> A
+    C --> O2[Canonical Decision Atom (ADR)]
+    RV --> RR2[ADR Rules<br/>(completeness, status logic, scope, supersedes chain, traceability)]
+  end
+
+  %% Clarify that schemas/rules differ per artifact type
+  O1 --> SV
+  O2 --> SV
+  RR1 --> RV
+  RR2 --> RV
+```
 
 ---
 
