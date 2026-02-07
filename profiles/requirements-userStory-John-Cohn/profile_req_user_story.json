@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "1.0.0",
+  "profileId": "req.user_story",
+  "name": "Requirements – User Story (John Cohn Format)",
+  "description": "Validates requirements written as user stories using the John Cohn pattern. Produces deterministic Requirement Atoms and a machine-verifiable validation report.",
+  "artifact": {
+    "kind": "requirement",
+    "subtype": "user_story",
+    "language": "en",
+    "inputForms": ["multiline", "singleline"],
+    "terminator": "."
+  },
+  "syntax": {
+    "multiline": {
+      "blockStart": "REQ",
+      "lines": [
+        { "key": "header", "pattern": "^REQ\\s+(?<id>[A-Za-z0-9_-]+)$" },
+        { "key": "actor", "pattern": "^AS\\s+(?<actor>.+)$" },
+        { "key": "goal", "pattern": "^(?<subject>I|WE)\\s+(?<modality>MUST|MUST\\s+NOT)\\s+(?<action>.+)\\.$" }
+      ],
+      "blockSeparator": "blank_line"
+    },
+    "singleline": {
+      "pattern": "^REQ\\s+(?<id>[A-Za-z0-9_-]+)\\s+AS\\s+(?<actor>.+?)\\s+(?<subject>I|WE)\\s+(?<modality>MUST|MUST\\s+NOT)\\s+(?<action>.+)\\.$"
+    }
+  },
+  "canonicalModel": {
+    "type": "RequirementAtom",
+    "fields": [
+      { "name": "id", "required": true },
+      { "name": "actor", "required": true },
+      { "name": "subject", "required": true, "allowed": ["i", "we"] },
+      { "name": "modality", "required": true, "allowed": ["must", "must_not"] },
+      { "name": "action", "required": true }
+    ]
+  },
+  "ruleset": {
+    "namespace": "REQ.USER_STORY",
+    "enabledRules": [
+      "REQ.USER_STORY.SYNTAX.001",
+      "REQ.USER_STORY.ID.001",
+      "REQ.USER_STORY.ACTOR.001",
+      "REQ.USER_STORY.MODALITY.001",
+      "REQ.USER_STORY.ACTION.001",
+      "REQ.USER_STORY.ATOMICITY.001",
+      "REQ.USER_STORY.AMBIGUITY.001",
+      "REQ.USER_STORY.CONTRADICTION.001"
+    ],
+    "parameters": {
+      "maxLenActor": 80,
+      "maxLenAction": 200,
+      "allowArticlesAfterAs": true
+    }
+  },
+  "output": {
+    "report": {
+      "format": "DslCoreReport",
+      "ruleIdRequired": true,
+      "deterministic": true,
+      "includeSourceLocations": true,
+      "exitCodes": { "ok": 0, "invalid": 1, "parse_error": 2 }
+    }
+  }
+}
