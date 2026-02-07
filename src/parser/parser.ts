@@ -17,7 +17,7 @@ import {
 } from "../errors/errors.ts";
 
 import { normalizeInput } from "./normalizer.ts";
-import { RequirementAtom } from "../types/RequirementEntity.ts";
+import type { RequirementAtom } from "../types/RequirementAtom.ts";
 
 /**
  * Main parser function:
