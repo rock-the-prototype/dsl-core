@@ -10,7 +10,7 @@
 
 import { parseRequirement } from "../parser/parser.ts";
 import { validateRequirement } from "../validation/validator.ts";
-import type { RequirementAtom } from "../types/RequirementEntity.ts";
+import type { RequirementAtom } from "../types/RequirementAtom.ts";
 import type { ValidationResult } from "../validation/validator.ts";
 import { buildReport } from "../report/buildReport.ts";
 import type { DslCoreReport } from "../report/buildReport.ts";
