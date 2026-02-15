@@ -59,7 +59,10 @@ Deno.test("implementation (Ajv): buildReport output conforms to report schema", 
           validation: {
             valid: false,
             // buildReport treats validation.errors opaquely; keep shape permissive in test data
-            errors: [{ code: "RULE_X", message: "Y not allowed" }] as unknown as ErrorObject[],
+            errors: [{
+              code: "RULE_X",
+              message: "Y not allowed",
+            }] as unknown as ErrorObject[],
           },
         },
         {
