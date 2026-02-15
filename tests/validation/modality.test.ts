@@ -6,8 +6,8 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 
-import { checkModality } from "../../src/validation/ruleChecks/modality.ts";
 import type { RequirementAtom } from "../../src/types/RequirementAtom.ts";
+import { checkModality } from "../modality";
 
 const baseAfo: RequirementAtom = {
   actor: "system",
@@ -22,7 +22,6 @@ test("accepts binding modality: must", () => {
 
 test("rejects non-binding modality: should", () => {
   const invalid = { ...baseAfo, modality: "should" } as unknown as RequirementAtom;
-
   const errors = checkModality(invalid);
   expect(errors).toHaveLength(1);
   expect(errors[0].ruleId).toBe("AFO-MODALITY-001");
