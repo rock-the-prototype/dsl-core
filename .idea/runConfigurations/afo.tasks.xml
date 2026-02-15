@@ -1,9 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Normalize AFO (stdin)" type="DenoConfigurationType" inputPath="$PROJECT_DIR$/src/cli.ts" programParameters="run">
-    <option name="applicationArguments" value="normalize" />
-    <option name="envs">
-      <entry key="KEY" value="value" />
-    </option>
-    <method v="2" />
-  </configuration>
-</component>
