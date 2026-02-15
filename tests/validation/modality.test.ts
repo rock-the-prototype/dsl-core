@@ -21,7 +21,10 @@ test("accepts binding modality: must", () => {
 });
 
 test("rejects non-binding modality: should", () => {
-  const invalid = { ...baseAfo, modality: "should" } as unknown as RequirementAtom;
+  const invalid = {
+    ...baseAfo,
+    modality: "should",
+  } as unknown as RequirementAtom;
   const errors = checkModality(invalid);
   expect(errors).toHaveLength(1);
   expect(errors[0].ruleId).toBe("AFO-MODALITY-001");
