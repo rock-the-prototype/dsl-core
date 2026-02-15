@@ -7,8 +7,8 @@
  */
 
 // ruleEngine.ts
-import type { RequirementAtom } from "../types/RequirementAtom";
-import type { ValidationError } from "./types";
+import type { RequirementAtom } from "../types/RequirementAtom.ts";
+import type { ValidationError } from "./types.ts";
 
 import {
   checkActor,
