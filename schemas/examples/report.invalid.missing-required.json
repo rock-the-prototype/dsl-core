@@ -1,0 +1,7 @@
+{
+  "contract": {
+    "name": "dsl-core.report",
+    "version": "1.0.0",
+    "schema": "schemas/report.schema.json"
+  }
+}
