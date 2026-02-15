@@ -1,3 +1,8 @@
+import type { ErrorObject } from "npm:ajv/dist/2020.js";
+import Ajv2020 from "npm:ajv/dist/2020.js";
+import addFormats from "npm:ajv-formats@2";
+import { expect } from "@std/expect";
+
 import schema from "../schemas/report.schema.json" with { type: "json" };
 import validExample from "../schemas/examples/report.valid.minimal.json" with {
   type: "json",
@@ -6,9 +11,7 @@ import invalidExample from "../schemas/examples/report.invalid.missing-required.
   type: "json",
 };
 
-import Ajv2020 from "npm:ajv/dist/2020.js";
-import addFormats from "npm:ajv-formats@2";
-
+import type { FileValidation } from "../src/api/public_api.ts";
 import { buildReport } from "../src/report/buildReport.ts";
 
 function makeValidate() {
@@ -27,9 +30,11 @@ Deno.test("contract (Ajv): invalid example is rejected by report schema", () => 
   const validate = makeValidate();
   const ok = validate(invalidExample);
   if (ok) throw new Error("Expected invalid example to fail, but it passed.");
+
   if (!validate.errors?.length) {
     throw new Error("Expected validation errors, but got none.");
   }
+
   const hasRequired = validate.errors.some((e) => e.keyword === "required");
   if (!hasRequired) {
     throw new Error("Expected at least one 'required' schema error.");
@@ -39,7 +44,7 @@ Deno.test("contract (Ajv): invalid example is rejected by report schema", () => 
 Deno.test("implementation (Ajv): buildReport output conforms to report schema", () => {
   const validate = makeValidate();
 
-  const files = [
+  const files: FileValidation[] = [
     {
       path: "example.dsl",
       statements: [
@@ -53,7 +58,8 @@ Deno.test("implementation (Ajv): buildReport output conforms to report schema", 
           atom: { actor: "system", modality: "must not", action: "do y" },
           validation: {
             valid: false,
-            errors: [{ code: "RULE_X", message: "Y not allowed" }],
+            // buildReport treats validation.errors opaquely; keep shape permissive in test data
+            errors: [{ code: "RULE_X", message: "Y not allowed" }] as unknown as ErrorObject[],
           },
         },
         {
@@ -65,7 +71,7 @@ Deno.test("implementation (Ajv): buildReport output conforms to report schema", 
         },
       ],
     },
-  ] as any;
+  ];
 
   const report = buildReport(files, {
     targetPath: "example.dsl",

@@ -6,23 +6,28 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 
+import type { RequirementAtom } from "../../src/types/RequirementAtom.ts";
+import { expect } from "@std/expect";
 import { checkAtomicity } from "../atomicity";
 
-const baseAfo = {
+const baseAfo: RequirementAtom = {
   actor: "system",
   modality: "must",
   action: "validate the access token",
 };
 
-test("accepts a single action", () => {
-  const errors = checkAtomicity(baseAfo as any);
+Deno.test("accepts a single action", () => {
+  const errors = checkAtomicity(baseAfo);
   expect(errors).toHaveLength(0);
 });
 
-test("rejects multiple actions (and)", () => {
-  const errors = checkAtomicity(
-    { ...baseAfo, action: "validate and log the access token" } as any,
-  );
+Deno.test("rejects multiple actions (and)", () => {
+  const invalid: RequirementAtom = {
+    ...baseAfo,
+    action: "validate and log the access token",
+  };
+
+  const errors = checkAtomicity(invalid);
   expect(errors).toHaveLength(1);
   expect(errors[0].ruleId).toBe("AFO-ATOMICITY-001");
 });
