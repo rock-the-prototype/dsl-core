@@ -2,7 +2,6 @@
 
 import {
   InvalidModalityError,
-  MissingActionError,
   SchemaValidationError,
 } from "../src/errors/errors.ts";
 
