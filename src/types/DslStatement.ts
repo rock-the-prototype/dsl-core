@@ -12,9 +12,9 @@ export interface DslStatement<TAtom> {
     normalized?: string;
     locations?: Array<{ line: number; col: number; len?: number }>;
   };
-  kind: "requirement" | "decision";        // später
-  profileId?: string;                      // später
-  atom?: TAtom;                            // canonical
+  kind: "requirement" | "decision"; // später
+  profileId?: string; // später
+  atom?: TAtom; // canonical
   validation?: ValidationResult;
   error?: { name: string; message: string; code?: string };
 }

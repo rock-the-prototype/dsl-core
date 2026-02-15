@@ -7,9 +7,9 @@
  */
 
 export interface RequirementAtom {
-    actor: string;
-    modality: "must" | "must not";
-    action: string;
-    condition?: string;
-    result?: string;
+  actor: string;
+  modality: "must" | "must not";
+  action: string;
+  condition?: string;
+  result?: string;
 }

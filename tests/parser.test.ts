@@ -7,11 +7,14 @@
  */
 
 import { parseRequirement } from "../src/parser/parser.ts";
-import { assertEquals, assertThrows } from "https://deno.land/std/testing/asserts.ts";
+import {
+  assertEquals,
+  assertThrows,
+} from "https://deno.land/std/testing/asserts.ts";
 
 Deno.test("Parsing a valid DSL Requirement Atom", () => {
   const input =
-      "As a system, I must validate the access token when receiving an ePrescription request then log success or failure.";
+    "As a system, I must validate the access token when receiving an ePrescription request then log success or failure.";
 
   const result = parseRequirement(input);
 
@@ -24,7 +27,7 @@ Deno.test("Parsing a valid DSL Requirement Atom", () => {
 
 Deno.test("Normalizes inconsistent spacing and casing", () => {
   const input =
-      "  as  a SYSTEM ,   i   MUST   validate the Access Token   WHEN receiving data THEN   log Success   or Failure   . ";
+    "  as  a SYSTEM ,   i   MUST   validate the Access Token   WHEN receiving data THEN   log Success   or Failure   . ";
 
   const result = parseRequirement(input);
 

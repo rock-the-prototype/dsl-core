@@ -9,10 +9,7 @@
 // tests/api_v1.test.ts
 
 import { handleApiV1Request } from "../src/server/api_v1.ts";
-import {
-  assert,
-  assertEquals,
-} from "https://deno.land/std/assert/mod.ts";
+import { assert, assertEquals } from "https://deno.land/std/assert/mod.ts";
 
 // Helper to build requests
 function makeRequest(
@@ -78,7 +75,7 @@ Deno.test("404 – rejects unknown endpoint", async () => {
   assert(data.error.includes("Unknown /v1 endpoint"));
 });
 
-Deno.test("400 – rejects missing \"input\" field", async () => {
+Deno.test('400 – rejects missing "input" field', async () => {
   const req = makeRequest("/v1/parse", {
     body: {}, // kein input
   });

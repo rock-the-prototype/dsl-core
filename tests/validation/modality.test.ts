@@ -9,18 +9,18 @@
 import { checkModality } from "../modality";
 
 const baseAfo = {
-    actor: "system",
-    modality: "must",
-    action: "validate the access token"
+  actor: "system",
+  modality: "must",
+  action: "validate the access token",
 };
 
 test("accepts binding modality: must", () => {
-    const errors = checkModality(baseAfo as any);
-    expect(errors).toHaveLength(0);
+  const errors = checkModality(baseAfo as any);
+  expect(errors).toHaveLength(0);
 });
 
 test("rejects non-binding modality: should", () => {
-    const errors = checkModality({ ...baseAfo, modality: "should" } as any);
-    expect(errors).toHaveLength(1);
-    expect(errors[0].ruleId).toBe("AFO-MODALITY-001");
+  const errors = checkModality({ ...baseAfo, modality: "should" } as any);
+  expect(errors).toHaveLength(1);
+  expect(errors[0].ruleId).toBe("AFO-MODALITY-001");
 });

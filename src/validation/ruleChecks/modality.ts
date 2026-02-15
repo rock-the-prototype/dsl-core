@@ -12,16 +12,16 @@ import type { RequirementAtom } from "../../types/RequirementAtom.ts";
 const BINDING_MODALITIES = ["must", "must not"];
 
 export function checkModality(afo: RequirementAtom): ValidationError[] {
-    const errors: ValidationError[] = [];
+  const errors: ValidationError[] = [];
 
-    if (!BINDING_MODALITIES.includes(afo.modality)) {
-        errors.push({
-            ruleId: "AFO-MODALITY-001",
-            severity: "error",
-            field: "modality",
-            message: "Only binding modal verbs are allowed"
-        });
-    }
+  if (!BINDING_MODALITIES.includes(afo.modality)) {
+    errors.push({
+      ruleId: "AFO-MODALITY-001",
+      severity: "error",
+      field: "modality",
+      message: "Only binding modal verbs are allowed",
+    });
+  }
 
-    return errors;
+  return errors;
 }

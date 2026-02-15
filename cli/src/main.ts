@@ -46,7 +46,10 @@ switch (command) {
       console.error("Missing <file|dir>.");
       Deno.exit(2);
     }
-    await cmdReport(target, { pretty: !!args.pretty, out: args.out ? String(args.out) : undefined });
+    await cmdReport(target, {
+      pretty: !!args.pretty,
+      out: args.out ? String(args.out) : undefined,
+    });
     break;
 
   default:

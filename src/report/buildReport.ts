@@ -82,8 +82,10 @@ function inferTargetKind(targetPath: string): "file" | "dir" | "stdin" {
 
 function countStatements(statements: StatementValidation[]) {
   const parseErrors = statements.filter((s: any) => !!s.error).length;
-  const invalid = statements.filter((s: any) => s.validation && !s.validation.valid).length;
-  const valid = statements.filter((s: any) => s.validation && s.validation.valid).length;
+  const invalid =
+    statements.filter((s: any) => s.validation && !s.validation.valid).length;
+  const valid =
+    statements.filter((s: any) => s.validation && s.validation.valid).length;
 
   return {
     statements: statements.length,
@@ -101,7 +103,10 @@ function countStatements(statements: StatementValidation[]) {
  *
  * This is a pure function: no IO, no global state.
  */
-export function buildReport(files: FileValidation[], opts: BuildReportOptions): DslCoreReport {
+export function buildReport(
+  files: FileValidation[],
+  opts: BuildReportOptions,
+): DslCoreReport {
   const now = opts.now ?? new Date();
   const contractVersion = opts.contractVersion ?? "1.0.0";
 
@@ -153,7 +158,12 @@ export function buildReport(files: FileValidation[], opts: BuildReportOptions): 
       name: "dsl-core",
       version: opts.engineVersion,
       ...(opts.gitSha
-        ? { git: { sha: opts.gitSha, ...(opts.gitRef ? { ref: opts.gitRef } : {}) } }
+        ? {
+          git: {
+            sha: opts.gitSha,
+            ...(opts.gitRef ? { ref: opts.gitRef } : {}),
+          },
+        }
         : {}),
     },
     generatedAt: now.toISOString(),

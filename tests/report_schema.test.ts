@@ -1,6 +1,10 @@
 import schema from "../schemas/report.schema.json" with { type: "json" };
-import validExample from "../schemas/examples/report.valid.minimal.json" with { type: "json" };
-import invalidExample from "../schemas/examples/report.invalid.missing-required.json" with { type: "json" };
+import validExample from "../schemas/examples/report.valid.minimal.json" with {
+  type: "json",
+};
+import invalidExample from "../schemas/examples/report.invalid.missing-required.json" with {
+  type: "json",
+};
 
 import Ajv2020 from "npm:ajv/dist/2020.js";
 import addFormats from "npm:ajv-formats@2";
@@ -23,9 +27,13 @@ Deno.test("contract (Ajv): invalid example is rejected by report schema", () => 
   const validate = makeValidate();
   const ok = validate(invalidExample);
   if (ok) throw new Error("Expected invalid example to fail, but it passed.");
-  if (!validate.errors?.length) throw new Error("Expected validation errors, but got none.");
+  if (!validate.errors?.length) {
+    throw new Error("Expected validation errors, but got none.");
+  }
   const hasRequired = validate.errors.some((e) => e.keyword === "required");
-  if (!hasRequired) throw new Error("Expected at least one 'required' schema error.");
+  if (!hasRequired) {
+    throw new Error("Expected at least one 'required' schema error.");
+  }
 });
 
 Deno.test("implementation (Ajv): buildReport output conforms to report schema", () => {
@@ -43,11 +51,17 @@ Deno.test("implementation (Ajv): buildReport output conforms to report schema", 
         {
           input: "As system, I must not do Y.",
           atom: { actor: "system", modality: "must not", action: "do y" },
-          validation: { valid: false, errors: [{ code: "RULE_X", message: "Y not allowed" }] },
+          validation: {
+            valid: false,
+            errors: [{ code: "RULE_X", message: "Y not allowed" }],
+          },
         },
         {
           input: "broken input",
-          error: { name: "NormalizationError", message: "Invalid requirement structure" },
+          error: {
+            name: "NormalizationError",
+            message: "Invalid requirement structure",
+          },
         },
       ],
     },

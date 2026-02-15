@@ -26,6 +26,6 @@ export function validateRequirement(atom: RequirementAtom): ValidationResult {
 
   return {
     valid: errors.length === 0,
-    errors
+    errors,
   };
 }

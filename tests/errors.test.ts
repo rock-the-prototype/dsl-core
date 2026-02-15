@@ -1,15 +1,18 @@
 // tests/errors.test.ts
 
 import {
-  MissingActorError,
-  MissingModalityError,
   InvalidModalityError,
   MissingActionError,
+  MissingActorError,
+  MissingModalityError,
   NormalizationError,
   SchemaValidationError,
 } from "../src/errors/errors.ts";
 
-import { assertEquals, assertInstanceOf } from "https://deno.land/std/testing/asserts.ts";
+import {
+  assertEquals,
+  assertInstanceOf,
+} from "https://deno.land/std/testing/asserts.ts";
 
 Deno.test("MissingActorError works", () => {
   const err = new MissingActorError();
@@ -19,7 +22,10 @@ Deno.test("MissingActorError works", () => {
 
 Deno.test("InvalidModalityError reports correct modality", () => {
   const err = new InvalidModalityError("should");
-  assertEquals(err.message, "Invalid modality 'should': only 'must' and 'must not' are allowed.");
+  assertEquals(
+    err.message,
+    "Invalid modality 'should': only 'must' and 'must not' are allowed.",
+  );
 });
 
 Deno.test("SchemaValidationError stores errors", () => {

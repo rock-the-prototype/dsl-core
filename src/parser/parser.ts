@@ -9,10 +9,10 @@
 // src/parser/parser.ts
 
 import {
-  MissingActorError,
-  MissingModalityError,
   InvalidModalityError,
   MissingActionError,
+  MissingActorError,
+  MissingModalityError,
   NormalizationError,
 } from "../errors/errors.ts";
 
@@ -34,7 +34,7 @@ export function parseRequirement(input: string): RequirementAtom {
 
   if (!normalized.endsWith(".")) {
     throw new NormalizationError(
-        "Statement must end with a single period ('.')."
+      "Statement must end with a single period ('.').",
     );
   }
 
@@ -47,21 +47,20 @@ export function parseRequirement(input: string): RequirementAtom {
    *   As <actor>, I must <...>
    *   As <actor>, I must not <...>
    */
-      // Case 1: With explicit "As <actor>, I|we must ..."
+  // Case 1: With explicit "As <actor>, I|we must ..."
   const withAsRegex =
-          /^as\s+(?<actor>[A-Za-z0-9 _-]+),\s+(?<subject>i|we)\s+(?<modality>must not|must)\s+(?<rest>.+)$/i;
+    /^as\s+(?<actor>[A-Za-z0-9 _-]+),\s+(?<subject>i|we)\s+(?<modality>must not|must)\s+(?<rest>.+)$/i;
 
-// Case 2: Without "As" prefix: "<actor> must ..."
+  // Case 2: Without "As" prefix: "<actor> must ..."
   const withoutAsRegex =
-      /^(?<actor>[A-Za-z0-9 _-]+)\s+(?<modality>must not|must)\s+(?<rest>.+)$/i;
+    /^(?<actor>[A-Za-z0-9 _-]+)\s+(?<modality>must not|must)\s+(?<rest>.+)$/i;
 
-  let actorMatch =
-      statement.match(withAsRegex) ??
-      statement.match(withoutAsRegex);
+  let actorMatch = statement.match(withAsRegex) ??
+    statement.match(withoutAsRegex);
 
   if (!actorMatch?.groups) {
     throw new NormalizationError(
-        "Invalid requirement structure. Expected 'As <actor>, I must …' or '<actor> must …'."
+      "Invalid requirement structure. Expected 'As <actor>, I must …' or '<actor> must …'.",
     );
   }
 
@@ -74,8 +73,6 @@ export function parseRequirement(input: string): RequirementAtom {
   }
 
   const modality = modalityRaw as "must" | "must not";
-
-
 
   let action = "";
   let condition: string | undefined;

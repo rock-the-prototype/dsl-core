@@ -34,7 +34,9 @@ export class MissingModalityError extends RequirementError {
  */
 export class InvalidModalityError extends RequirementError {
   constructor(modality: string) {
-    super(`Invalid modality '${modality}': only 'must' and 'must not' are allowed.`);
+    super(
+      `Invalid modality '${modality}': only 'must' and 'must not' are allowed.`,
+    );
   }
 }
 

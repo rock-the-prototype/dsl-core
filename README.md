@@ -1,30 +1,48 @@
 # Audit-by-Design DSL — DSL Core
-**DSL Core** is the open standard specification and validation engine that turns **software engineering artifacts** into **verified**, **git-versioned**, **machine-readable records** — deterministic, traceable, and **audit-ready by design**.
 
-By making requirements git versioned, explicit, verifiable, and traceable over time, DSL Core establishes the normative baseline against which implementations can be systematically audited allowing trustworthy digital systems.
+**DSL Core** is the open standard specification and validation engine that turns
+**software engineering artifacts** into **verified**, **git-versioned**,
+**machine-readable records** — deterministic, traceable, and **audit-ready by
+design**.
 
-## DSL Core is an open standard  
+By making requirements git versioned, explicit, verifiable, and traceable over
+time, DSL Core establishes the normative baseline against which implementations
+can be systematically audited allowing trustworthy digital systems.
 
-**DSL Core** is an open standard and tooling stack for producing verified, revision-proof, machine-readable engineering artifacts — enabling deterministic traceability and audit-ready evidence for regulated and trustworthy digital systems.
+## DSL Core is an open standard
 
-By normalizing inputs into canonical records and validating them against explicit schemas and rules, DSL Core provides the normative baseline for systematic audits across requirements, architecture decisions (ADRs), and related compliance artifacts.
+**DSL Core** is an open standard and tooling stack for producing verified,
+revision-proof, machine-readable engineering artifacts — enabling deterministic
+traceability and audit-ready evidence for regulated and trustworthy digital
+systems.
 
-It defines canonical schemas and quality rules for artifacts such as requirements, decisions (ADRs), and other architecture and compliance evidence — establishing a normative baseline against which implementations can be systematically verified.
+By normalizing inputs into canonical records and validating them against
+explicit schemas and rules, DSL Core provides the normative baseline for
+systematic audits across requirements, architecture decisions (ADRs), and
+related compliance artifacts.
 
+It defines canonical schemas and quality rules for artifacts such as
+requirements, decisions (ADRs), and other architecture and compliance evidence —
+establishing a normative baseline against which implementations can be
+systematically verified.
 
 ---
 
 ## Rationale
 
-**Trustworthy digital systems** must be built on validated requirements as a fundamental layer of every implementation. Software must be based on requirements that are consistently validated and free of contradictions.
+**Trustworthy digital systems** must be built on validated requirements as a
+fundamental layer of every implementation. Software must be based on
+requirements that are consistently validated and free of contradictions.
 
-Without formal semantics, requirements cannot be reliably validated.
-Without reliable validation, security properties cannot be verified.
-Without verifiability, trust cannot be established.
+Without formal semantics, requirements cannot be reliably validated. Without
+reliable validation, security properties cannot be verified. Without
+verifiability, trust cannot be established.
 
 This is a matter of logical necessity.
 
-With *DSL Core' we transform untrusted inputs into verified, canonical evidence records—whether requirements, architecture decisions (ADRs), or other audit artifacts.
+With *DSL Core' we transform untrusted inputs into verified, canonical evidence
+records—whether requirements, architecture decisions (ADRs), or other audit
+artifacts.
 
 ## Architecture Overview
 
@@ -38,8 +56,8 @@ flowchart TD
     A --> B
     B -->|valid only| C
     C --> D
-
 ```
+
 ### **DSL core** is designed as a composable validation pipeline:
 
 - **Parser** → transforms DSL input into a structured representation
@@ -47,7 +65,8 @@ flowchart TD
 - **Validator** → applies deterministic syntax and semantic rules
 - **Report Generator** → produces machine-readable validation and audit output
 
-Each component is designed to be usable independently or as part of automated toolchains.
+Each component is designed to be usable independently or as part of automated
+toolchains.
 
 ```mermaid
 flowchart TB
@@ -79,9 +98,12 @@ flowchart TB
 ---
 
 ## Purpose
-This repository contains the **normative core implementation** of the Audit-by-Design DSL.
 
-While the DSL specification defines *how requirements are expressed*, `dsl-core` defines **what is considered valid, consistent, and auditable**.
+This repository contains the **normative core implementation** of the
+Audit-by-Design DSL.
+
+While the DSL specification defines _how requirements are expressed_, `dsl-core`
+defines **what is considered valid, consistent, and auditable**.
 
 It provides the executable semantics required to:
 
@@ -92,70 +114,89 @@ It provides the executable semantics required to:
 - produce deterministic validation results
 - serve as the technical reference for tooling, automation, and audits
 
-This repository defines the **precondition under which secure and auditable software becomes possible**.
+This repository defines the **precondition under which secure and auditable
+software becomes possible**.
 
 ---
 
-**DSL-Core** is an **open specification**, **free to use and extend**.
-An open, formal, machine-readable, version-safe standard for requirements is one critical foundation for building secure and auditable systems.
+**DSL-Core** is an **open specification**, **free to use and extend**. An open,
+formal, machine-readable, version-safe standard for requirements is one critical
+foundation for building secure and auditable systems.
 
-for the **Audit-by-Design DSL**  - Human- and machine-readable **D**omain-**S**pecific **L**anguage (DSL) for *defining*, *validating*, and *auditing* atomic **requirements** (AFOs) in regulated software environments. 
+for the **Audit-by-Design DSL** - Human- and machine-readable
+**D**omain-**S**pecific **L**anguage (DSL) for _defining_, _validating_, and
+_auditing_ atomic **requirements** (AFOs) in regulated software environments.
 
-**DSL core** is the  open standard that allows requirements to be validated deterministically and to emit reproducible audit evidence. That leads to trustfull artifacts based on software requirements to be defined in a formal, revision-proof, machine-readable, and versioned manner — providing a deterministic and auditable foundation for regulated and trustworthy digital systems.
-
+**DSL core** is the open standard that allows requirements to be validated
+deterministically and to emit reproducible audit evidence. That leads to
+trustfull artifacts based on software requirements to be defined in a formal,
+revision-proof, machine-readable, and versioned manner — providing a
+deterministic and auditable foundation for regulated and trustworthy digital
+systems.
 
 ## Public Schema Contracts
 
-`dsl-core` exposes **public JSON Schema contracts** for its machine-consumable outputs.
-These contracts are located in:
+`dsl-core` exposes **public JSON Schema contracts** for its machine-consumable
+outputs. These contracts are located in:
 
 - `schemas/report.schema.json`
 - `schemas/SCHEMA_CONTRACTS.md` (contract scope, stability, versioning)
 
-The contracts are designed for CI pipelines, audit evidence artifacts, and downstream tooling (e.g. job/opportunity generation).
+The contracts are designed for CI pipelines, audit evidence artifacts, and
+downstream tooling (e.g. job/opportunity generation).
 
 ## Internal Engine Models
 
-Internal implementation structures live under `src/model/**` and are **not** public contracts.
-Only the JSON Schemas under `schemas/**` define stable integration contracts.
-
+Internal implementation structures live under `src/model/**` and are **not**
+public contracts. Only the JSON Schemas under `schemas/**` define stable
+integration contracts.
 
 **DSL Core principles**
 
-- DSL as a formal artifact → machine readability, deterministic validation, and auditability
+- DSL as a formal artifact → machine readability, deterministic validation, and
+  auditability
 
-- Git as the underlying infrastructure → proven, revision-safe versioning and traceability
+- Git as the underlying infrastructure → proven, revision-safe versioning and
+  traceability
 
-- Open-source commitment → global interoperability and freedom from vendor lock-in
+- Open-source commitment → global interoperability and freedom from vendor
+  lock-in
 
 - Kerkhoff’s principle → transparency, traceability, and verifiability by design
 
 ## MVP-Based, Iterative Development
 
-The DSL Core follows an **iterative, prototype-driven approach**.  
-Each version of the parser, normalizer, and validator is treated as a **minimum viable prototype (MVP)**  
-that must be functional, auditable, and testable before advancing to the next stage.
+The DSL Core follows an **iterative, prototype-driven approach**.\
+Each version of the parser, normalizer, and validator is treated as a **minimum
+viable prototype (MVP)**\
+that must be functional, auditable, and testable before advancing to the next
+stage.
 
 This iterative prototypical approach ensures:
-- **Early validation** of syntax and semantics  
-- **Transparent evolution** of the language and its rules  
-- **Continuous feedback loops** between specification (`dsl-docs`) and implementation (`dsl-core`)  
-- **Full traceability** from every change in grammar to its technical representation
+
+- **Early validation** of syntax and semantics
+- **Transparent evolution** of the language and its rules
+- **Continuous feedback loops** between specification (`dsl-docs`) and
+  implementation (`dsl-core`)
+- **Full traceability** from every change in grammar to its technical
+  representation
 
 ## Core Scope and Evolution
 
-The core evolves incrementally, following a minimal and strictly layered approach.
-Each stage adds capabilities without changing the fundamental semantics of the DSL.
+The core evolves incrementally, following a minimal and strictly layered
+approach. Each stage adds capabilities without changing the fundamental
+semantics of the DSL.
 
 ### Reference CLI (engine access)
 
-`dsl-core` includes a minimal reference CLI for deterministic validation and reporting:
+`dsl-core` includes a minimal reference CLI for deterministic validation and
+reporting:
 
 - `dsl validate …`
 - `dsl report …`
 
-The CLI is a thin adapter over the engine and does not include orchestration or collaboration logic.
-
+The CLI is a thin adapter over the engine and does not include orchestration or
+collaboration logic.
 
 ### Current focus
 
@@ -171,31 +212,30 @@ The CLI is a thin adapter over the engine and does not include orchestration or 
 - Standardized audit report formats
 - Reference adapters for downstream tooling
 
-All extensions are required to preserve backward compatibility at the semantic level.
-Breaking changes are treated as **standard revisions**, not refactorings.
+All extensions are required to preserve backward compatibility at the semantic
+level. Breaking changes are treated as **standard revisions**, not refactorings.
 
 ## Relation to dsl-docs
 
 The Audit-by-Design DSL is defined across two complementary repositories:
 
-| Repository  | Responsibility |
-|------------|----------------|
+| Repository | Responsibility                                                                    |
+| ---------- | --------------------------------------------------------------------------------- |
 | `dsl-docs` | Human-readable specification of the DSL (concepts, grammar, semantics, rationale) |
 | `dsl-core` | Machine-enforceable reference implementation (parsing, normalization, validation) |
 
-The specification is **normative in text**.
-`dsl-core` is **normative in execution**.
+The specification is **normative in text**. `dsl-core` is **normative in
+execution**.
 
 A requirement that is accepted by `dsl-core` is considered formally valid
 according to the current version of the standard.
-
 
 ### Input (DSL)
 
 ## Example
 
-The following example shows what the DSL core currently validates
-based on the formally defined grammar and validation rules.
+The following example shows what the DSL core currently validates based on the
+formally defined grammar and validation rules.
 
 ### Input (DSL)
 
@@ -208,7 +248,8 @@ I MUST validate authentication requests
 👉 **Deterministic validation with reproducible output**
 
 ## Validation result (machine-readable and human readable)
-```dsl 
+
+```dsl
 {
   "id": "REQ-001",
   "type": "AFO",
@@ -245,17 +286,23 @@ I SHOULD validate authentication requests and log user behavior
   ]
 }
 ```
-Note: 1) The requirement is rejected due to an atomicity violation. 2) Only binding modal verbs result in valid requirements. 
 
-**DSL core validates requirements against a formally defined rule set (schema) and applies deterministic validation logic to identify structural, semantic, and normative violations.**
+Note: 1) The requirement is rejected due to an atomicity violation. 2) Only
+binding modal verbs result in valid requirements.
+
+**DSL core validates requirements against a formally defined rule set (schema)
+and applies deterministic validation logic to identify structural, semantic, and
+normative violations.**
 
 ---
 
 ## Scope
 
-`dsl-core` focuses exclusively on **requirements validation**, not on implementation.
+`dsl-core` focuses exclusively on **requirements validation**, not on
+implementation.
 
 In scope:
+
 - formal parsing of DSL artifacts
 - deterministic validation rules
 - consistency and contradiction detection
@@ -263,6 +310,7 @@ In scope:
 - machine-verifiable audit outputs
 
 Out of scope:
+
 - application logic
 - user interfaces
 - security scanning of source code
@@ -271,14 +319,14 @@ Out of scope:
 
 ---
 
-
 ## Typical Use Cases
 
 - Validate requirements in CI/CD pipelines
 - Detect contradictions before implementation starts
 - Enforce atomicity and testability of requirements
 - Generate reproducible audit evidence
-- Support regulated software development (e.g. health, government, critical infrastructure)
+- Support regulated software development (e.g. health, government, critical
+  infrastructure)
 - Constrain AI-generated requirements or acceptance criteria using formal rules
 
 ---
@@ -287,22 +335,23 @@ Out of scope:
 
 The DSL follows a two-layer model:
 
-- **Layer A — Grammar / Parser (Existence):** decides whether a requirement exists in a valid, canonical form.
-- **Layer B — Rules / Validation (Quality):** evaluates quality properties (e.g., atomicity, actor quality, binding modality) only after parsing succeeded.
+- **Layer A — Grammar / Parser (Existence):** decides whether a requirement
+  exists in a valid, canonical form.
+- **Layer B — Rules / Validation (Quality):** evaluates quality properties
+  (e.g., atomicity, actor quality, binding modality) only after parsing
+  succeeded.
 
 ### Canonical form (normative)
 
 A requirement is canonical if it matches the following structure:
 
-
 ### Accepted input variants
 
 For usability, the parser supports two equivalent input families:
 
-1) **With role prefix (`As ...`) — subject is mandatory**
+1. **With role prefix (`As ...`) — subject is mandatory**
 
-2) **Without role prefix — subject may be implicit**
-
+2. **Without role prefix — subject may be implicit**
 
 ### Rejected structures (non-normative)
 
@@ -310,21 +359,23 @@ The parser rejects ambiguous or incomplete structures, e.g.:
 
 - Missing subject after an `As <Actor>,` prefix:
 
-Rationale: Introducing a requirement with `As <Actor>,` must explicitly state the subject (`I` / `we`) to avoid implicit meaning and preserve deterministic auditability.
-
-
+Rationale: Introducing a requirement with `As <Actor>,` must explicitly state
+the subject (`I` / `we`) to avoid implicit meaning and preserve deterministic
+auditability.
 
 ## Status
 
-`dsl-core` is under active development and evolves alongside the DSL specification.
+`dsl-core` is under active development and evolves alongside the DSL
+specification.
 
-Breaking changes are treated as **standard changes**, not as refactorings, and are documented accordingly.
+Breaking changes are treated as **standard changes**, not as refactorings, and
+are documented accordingly.
 
 ---
 
 ## Philosophy
 
-> Requirements must be explicit before software can be trusted.  
+> Requirements must be explicit before software can be trusted.\
 > Validation must be automated before trust can scale.
 
 ---

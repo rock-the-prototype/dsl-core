@@ -12,29 +12,29 @@ import type { RequirementAtom } from "../../types/RequirementAtom.ts";
 const INVALID_ACTORS = ["unknown", "n/a", "tbd", "todo", "someone", "anyone"];
 
 export function checkActor(afo: RequirementAtom): ValidationError[] {
-    const errors: ValidationError[] = [];
+  const errors: ValidationError[] = [];
 
-    const actor = (afo.actor ?? "").trim().toLowerCase();
+  const actor = (afo.actor ?? "").trim().toLowerCase();
 
-    // Schema already enforces minLength, but we keep it defensive here.
-    if (!actor) {
-        errors.push({
-            ruleId: "AFO-ACTOR-001",
-            severity: "error",
-            field: "actor",
-            message: "Actor must be explicitly specified"
-        });
-        return errors;
-    }
-
-    if (INVALID_ACTORS.includes(actor)) {
-        errors.push({
-            ruleId: "AFO-ACTOR-001",
-            severity: "error",
-            field: "actor",
-            message: "Actor must be explicit and must not be a placeholder"
-        });
-    }
-
+  // Schema already enforces minLength, but we keep it defensive here.
+  if (!actor) {
+    errors.push({
+      ruleId: "AFO-ACTOR-001",
+      severity: "error",
+      field: "actor",
+      message: "Actor must be explicitly specified",
+    });
     return errors;
+  }
+
+  if (INVALID_ACTORS.includes(actor)) {
+    errors.push({
+      ruleId: "AFO-ACTOR-001",
+      severity: "error",
+      field: "actor",
+      message: "Actor must be explicit and must not be a placeholder",
+    });
+  }
+
+  return errors;
 }

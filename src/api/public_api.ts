@@ -19,7 +19,12 @@ const ENGINE_VERSION = "0.0.0-dev";
 
 export async function generateReport(
   targetPath: string,
-  opts?: { engineVersion?: string; gitSha?: string; gitRef?: string; now?: Date },
+  opts?: {
+    engineVersion?: string;
+    gitSha?: string;
+    gitRef?: string;
+    now?: Date;
+  },
 ): Promise<DslCoreReport> {
   const files = await validatePath(targetPath);
 
@@ -46,14 +51,17 @@ export type FileValidation = {
 
 function splitStatements(content: string): string[] {
   // MVP: 1 requirement per line (empty lines ignored)
-  // Later: smarter splitting (e.g. handle multi-line statements) 
+  // Later: smarter splitting (e.g. handle multi-line statements)
   return content
     .split(/\r?\n/)
     .map((l) => l.trim())
     .filter(Boolean);
 }
 
-export async function validateText(input: string, source = "<stdin>"): Promise<StatementValidation[]> {
+export async function validateText(
+  input: string,
+  source = "<stdin>",
+): Promise<StatementValidation[]> {
   const lines = splitStatements(input);
 
   // If input is a single statement (no newline), still works.

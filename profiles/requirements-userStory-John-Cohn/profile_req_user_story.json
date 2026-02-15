@@ -16,7 +16,10 @@
       "lines": [
         { "key": "header", "pattern": "^REQ\\s+(?<id>[A-Za-z0-9_-]+)$" },
         { "key": "actor", "pattern": "^AS\\s+(?<actor>.+)$" },
-        { "key": "goal", "pattern": "^(?<subject>I|WE)\\s+(?<modality>MUST|MUST\\s+NOT)\\s+(?<action>.+)\\.$" }
+        {
+          "key": "goal",
+          "pattern": "^(?<subject>I|WE)\\s+(?<modality>MUST|MUST\\s+NOT)\\s+(?<action>.+)\\.$"
+        }
       ],
       "blockSeparator": "blank_line"
     },

@@ -4,7 +4,14 @@
   "title": "dsl-core Validation Report",
   "type": "object",
   "additionalProperties": false,
-  "required": ["contract", "engine", "generatedAt", "target", "summary", "files"],
+  "required": [
+    "contract",
+    "engine",
+    "generatedAt",
+    "target",
+    "summary",
+    "files"
+  ],
   "properties": {
     "contract": {
       "type": "object",
@@ -12,7 +19,10 @@
       "required": ["name", "version", "schema"],
       "properties": {
         "name": { "type": "string", "const": "dsl-core.report" },
-        "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
         "schema": { "type": "string", "const": "schemas/report.schema.json" }
       }
     },

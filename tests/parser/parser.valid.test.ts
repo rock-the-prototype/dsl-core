@@ -9,16 +9,16 @@
 import { parseRequirement } from "../../src/parser/parser.ts";
 
 test("accepts canonical form", () => {
-    const atom = parseRequirement("As System, I must validate the token.");
-    expect(atom.actor).toBe("system");
+  const atom = parseRequirement("As System, I must validate the token.");
+  expect(atom.actor).toBe("system");
 });
 
 test("accepts missing comma", () => {
-    const atom = parseRequirement("As System I must validate the token.");
-    expect(atom.actor).toBe("system");
+  const atom = parseRequirement("As System I must validate the token.");
+  expect(atom.actor).toBe("system");
 });
 
 test("accepts subject-less form", () => {
-    const atom = parseRequirement("System must validate the token.");
-    expect(atom.modality).toBe("must");
+  const atom = parseRequirement("System must validate the token.");
+  expect(atom.modality).toBe("must");
 });

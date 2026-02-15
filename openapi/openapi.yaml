@@ -11,8 +11,8 @@ info:
   title: Audit-by-Design DSL Core API
   version: 0.1.0
   description: >
-    HTTP API for the Audit-by-Design DSL Core.  
-    Provides canonical normalization, parsing, validation, and 
+    HTTP API for the Audit-by-Design DSL Core.
+    Provides canonical normalization, parsing, validation, and
     end-to-end Requirement Atom processing.
 
 servers:
@@ -22,27 +22,26 @@ servers:
     description: Local development server
 
 paths:
-
   /v1/normalize:
     post:
       summary: Normalize DSL input
       description: >
-        Converts arbitrary DSL text into canonical normalized form  
-        (spacing, casing, terminator, commas).  
+        Converts arbitrary DSL text into canonical normalized form
+        (spacing, casing, terminator, commas).
         Does **not** parse or validate grammar.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NormalizeRequest'
+              $ref: "#/components/schemas/NormalizeRequest"
       responses:
         "200":
           description: Normalized DSL text
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NormalizeResponse'
+                $ref: "#/components/schemas/NormalizeResponse"
         "400":
           description: Invalid or missing input
 
@@ -50,22 +49,22 @@ paths:
     post:
       summary: Parse DSL input into a Requirement Atom
       description: >
-        Parses normalized or unnormalized DSL text using the formal  
-        context-free grammar (CFG).  
+        Parses normalized or unnormalized DSL text using the formal
+        context-free grammar (CFG).
         Returns an atomic Requirement representation or an error.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ParseRequest'
+              $ref: "#/components/schemas/ParseRequest"
       responses:
         "200":
           description: Successfully parsed Requirement Atom
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ParseResponse'
+                $ref: "#/components/schemas/ParseResponse"
         "422":
           description: Syntax error or malformed DSL input
         "400":
@@ -75,22 +74,22 @@ paths:
     post:
       summary: Validate a Requirement Atom using JSON Schema
       description: >
-        Performs schema validation of a Requirement Atom.  
-        Ensures field consistency, binary modalities, required fields,  
+        Performs schema validation of a Requirement Atom.
+        Ensures field consistency, binary modalities, required fields,
         and absence of additional properties.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ValidateRequest'
+              $ref: "#/components/schemas/ValidateRequest"
       responses:
         "200":
           description: Validation result
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidateResponse'
+                $ref: "#/components/schemas/ValidateResponse"
         "422":
           description: Schema validation failed
         "400":
@@ -100,31 +99,29 @@ paths:
     post:
       summary: Full end-to-end Requirement Atom pipeline
       description: >
-        Performs normalization → parsing → schema validation  
-        in a single unified API call.  
+        Performs normalization → parsing → schema validation
+        in a single unified API call.
         Recommended for most consumers.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AtomPipelineRequest'
+              $ref: "#/components/schemas/AtomPipelineRequest"
       responses:
         "200":
           description: Full pipeline result
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AtomPipelineResponse'
+                $ref: "#/components/schemas/AtomPipelineResponse"
         "422":
           description: Syntax or schema validation error
         "400":
           description: Missing input
 
-
 components:
   schemas:
-
     NormalizeRequest:
       type: object
       required: [text]

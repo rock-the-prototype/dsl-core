@@ -80,7 +80,13 @@ export async function handleApiV1Request(
         const normalized = normalizeInput(input);
         const atom = parseRequirement(normalized);
         const validation = validateRequirementAtom(atom);
-        return json({ success: validation.valid, input, normalized, atom, validation });
+        return json({
+          success: validation.valid,
+          input,
+          normalized,
+          atom,
+          validation,
+        });
       }
 
       default:
@@ -95,7 +101,10 @@ export async function handleApiV1Request(
     }
     console.error("[/v1] Unhandled error:", err);
     return json(
-      { success: false, error: "❌ Internal server error while processing DSL input." },
+      {
+        success: false,
+        error: "❌ Internal server error while processing DSL input.",
+      },
       500,
     );
   }
@@ -103,14 +112,20 @@ export async function handleApiV1Request(
 
 function ensureString(value: unknown): string {
   if (!value || typeof value !== "string") {
-    throw new HttpError(400, '❌ Field "input" (string) is required in request body.');
+    throw new HttpError(
+      400,
+      '❌ Field "input" (string) is required in request body.',
+    );
   }
   return value;
 }
 
 function ensureObject<T>(value: unknown): T {
   if (!value || typeof value !== "object") {
-    throw new HttpError(400, '❌ Field "atom" (object) is required in request body.');
+    throw new HttpError(
+      400,
+      '❌ Field "atom" (object) is required in request body.',
+    );
   }
   return value as T;
 }

@@ -11,17 +11,17 @@ import type { RequirementAtom } from "../types/RequirementAtom";
 import type { ValidationError } from "./types";
 
 import {
-    checkStructure,
-    checkActor,
-    checkAtomicity,
-    checkModality,
+  checkActor,
+  checkAtomicity,
+  checkModality,
+  checkStructure,
 } from "./ruleChecks/index.ts";
 
 export function applyRules(atom: RequirementAtom): ValidationError[] {
-    return [
-        ...checkStructure(atom),
-        ...checkActor(atom),
-        ...checkAtomicity(atom),
-        ...checkModality(atom),
-    ];
+  return [
+    ...checkStructure(atom),
+    ...checkActor(atom),
+    ...checkAtomicity(atom),
+    ...checkModality(atom),
+  ];
 }

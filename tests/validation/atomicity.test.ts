@@ -9,18 +9,20 @@
 import { checkAtomicity } from "../atomicity";
 
 const baseAfo = {
-    actor: "system",
-    modality: "must",
-    action: "validate the access token"
+  actor: "system",
+  modality: "must",
+  action: "validate the access token",
 };
 
 test("accepts a single action", () => {
-    const errors = checkAtomicity(baseAfo as any);
-    expect(errors).toHaveLength(0);
+  const errors = checkAtomicity(baseAfo as any);
+  expect(errors).toHaveLength(0);
 });
 
 test("rejects multiple actions (and)", () => {
-    const errors = checkAtomicity({ ...baseAfo, action: "validate and log the access token" } as any);
-    expect(errors).toHaveLength(1);
-    expect(errors[0].ruleId).toBe("AFO-ATOMICITY-001");
+  const errors = checkAtomicity(
+    { ...baseAfo, action: "validate and log the access token" } as any,
+  );
+  expect(errors).toHaveLength(1);
+  expect(errors[0].ruleId).toBe("AFO-ATOMICITY-001");
 });
