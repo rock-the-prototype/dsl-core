@@ -11,8 +11,6 @@
 import {
   InvalidModalityError,
   MissingActionError,
-  MissingActorError,
-  MissingModalityError,
   NormalizationError,
 } from "../errors/errors.ts";
 
@@ -55,7 +53,7 @@ export function parseRequirement(input: string): RequirementAtom {
   const withoutAsRegex =
     /^(?<actor>[A-Za-z0-9 _-]+)\s+(?<modality>must not|must)\s+(?<rest>.+)$/i;
 
-  let actorMatch = statement.match(withAsRegex) ??
+  const actorMatch = statement.match(withAsRegex) ??
     statement.match(withoutAsRegex);
 
   if (!actorMatch?.groups) {
@@ -66,7 +64,7 @@ export function parseRequirement(input: string): RequirementAtom {
 
   const actor = actorMatch.groups.actor.trim().toLowerCase();
   const modalityRaw = actorMatch.groups.modality.toLowerCase();
-  let rest = actorMatch.groups.rest.trim();
+  const rest = actorMatch.groups.rest.trim();
 
   if (modalityRaw !== "must" && modalityRaw !== "must not") {
     throw new InvalidModalityError(modalityRaw);

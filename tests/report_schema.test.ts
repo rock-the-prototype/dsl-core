@@ -1,7 +1,5 @@
-import type { ErrorObject } from "npm:ajv/dist/2020.js";
-import Ajv2020 from "npm:ajv/dist/2020.js";
+import Ajv2020, { type ErrorObject } from "npm:ajv/dist/2020.js";
 import addFormats from "npm:ajv-formats@2";
-import { expect } from "@std/expect";
 
 import schema from "../schemas/report.schema.json" with { type: "json" };
 import validExample from "../schemas/examples/report.valid.minimal.json" with {
@@ -41,47 +39,52 @@ Deno.test("contract (Ajv): invalid example is rejected by report schema", () => 
   }
 });
 
-Deno.test("implementation (Ajv): buildReport output conforms to report schema", () => {
-  const validate = makeValidate();
+Deno.test(
+  "implementation (Ajv): buildReport output conforms to report schema",
+  () => {
+    const validate = makeValidate();
 
-  const files: FileValidation[] = [
-    {
-      path: "example.dsl",
-      statements: [
-        {
-          input: "As system, I must do X.",
-          atom: { actor: "system", modality: "must", action: "do x" },
-          validation: { valid: true, errors: [] },
-        },
-        {
-          input: "As system, I must not do Y.",
-          atom: { actor: "system", modality: "must not", action: "do y" },
-          validation: {
-            valid: false,
-            // buildReport treats validation.errors opaquely; keep shape permissive in test data
-            errors: [{
-              code: "RULE_X",
-              message: "Y not allowed",
-            }] as unknown as ErrorObject[],
+    const files: FileValidation[] = [
+      {
+        path: "example.dsl",
+        statements: [
+          {
+            input: "As system, I must do X.",
+            atom: { actor: "system", modality: "must", action: "do x" },
+            validation: { valid: true, errors: [] },
           },
-        },
-        {
-          input: "broken input",
-          error: {
-            name: "NormalizationError",
-            message: "Invalid requirement structure",
+          {
+            input: "As system, I must not do Y.",
+            atom: { actor: "system", modality: "must not", action: "do y" },
+            validation: {
+              valid: false,
+              // buildReport treats validation.errors opaquely; keep shape permissive in test data
+              errors: [
+                {
+                  code: "RULE_X",
+                  message: "Y not allowed",
+                },
+              ] as unknown as ErrorObject[],
+            },
           },
-        },
-      ],
-    },
-  ];
+          {
+            input: "broken input",
+            error: {
+              name: "NormalizationError",
+              message: "Invalid requirement structure",
+            },
+          },
+        ],
+      },
+    ];
 
-  const report = buildReport(files, {
-    targetPath: "example.dsl",
-    engineVersion: "0.0.0-dev",
-    now: new Date("2026-01-02T00:00:00.000Z"),
-  });
+    const report = buildReport(files, {
+      targetPath: "example.dsl",
+      engineVersion: "0.0.0-dev",
+      now: new Date("2026-01-02T00:00:00.000Z"),
+    });
 
-  const ok = validate(report);
-  if (!ok) throw new Error(JSON.stringify(validate.errors, null, 2));
-});
+    const ok = validate(report);
+    if (!ok) throw new Error(JSON.stringify(validate.errors, null, 2));
+  },
+);

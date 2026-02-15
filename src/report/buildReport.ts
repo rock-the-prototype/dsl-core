@@ -81,11 +81,17 @@ function inferTargetKind(targetPath: string): "file" | "dir" | "stdin" {
 }
 
 function countStatements(statements: StatementValidation[]) {
-  const parseErrors = statements.filter((s: any) => !!s.error).length;
+  const parseErrors = statements.filter((s) => Boolean(s.error)).length;
+
   const invalid =
-    statements.filter((s: any) => s.validation && !s.validation.valid).length;
+    statements.filter((s) =>
+      Boolean(s.validation) && s.validation!.valid === false
+    ).length;
+
   const valid =
-    statements.filter((s: any) => s.validation && s.validation.valid).length;
+    statements.filter((s) =>
+      Boolean(s.validation) && s.validation!.valid === true
+    ).length;
 
   return {
     statements: statements.length,
@@ -113,13 +119,13 @@ export function buildReport(
   const reportFiles: DslCoreReport["files"] = files.map((f) => {
     const counts = countStatements(f.statements);
 
-    const statements = f.statements.map((s: any) => ({
+    const statements = f.statements.map((s: StatementValidation) => ({
       source: f.path,
       input: s.input,
       atom: s.atom,
       validation: s.validation
         ? {
-          valid: !!s.validation.valid,
+          valid: Boolean(s.validation.valid),
           errors: Array.isArray(s.validation.errors) ? s.validation.errors : [],
         }
         : undefined,

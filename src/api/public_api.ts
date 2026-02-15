@@ -58,10 +58,10 @@ function splitStatements(content: string): string[] {
     .filter(Boolean);
 }
 
-export async function validateText(
+export function validateText(
   input: string,
-  source = "<stdin>",
-): Promise<StatementValidation[]> {
+  _source = "<stdin>",
+): StatementValidation[] {
   const lines = splitStatements(input);
 
   // If input is a single statement (no newline), still works.
@@ -81,7 +81,7 @@ export async function validateText(
 
 export async function validateFile(filePath: string): Promise<FileValidation> {
   const input = await Deno.readTextFile(filePath);
-  const statements = await validateText(input, filePath);
+  const statements = validateText(input, filePath);
   return { path: filePath, statements };
 }
 
