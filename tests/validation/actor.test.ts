@@ -6,7 +6,7 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 
-import { checkActor } from "../actor";
+import { checkActor } from "../../src/validation/ruleChecks/actor.ts";
 import type { RequirementAtom } from "../../src/types/RequirementAtom.ts";
 
 const baseAfo = {
