@@ -10,14 +10,14 @@ permissions:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup Deno
         uses: denoland/setup-deno@v2
         with:
-          deno-version: v1.x
+          deno-version: 2.6.9
           cache: true
 
       - name: Format check
@@ -26,5 +26,5 @@ jobs:
       - name: Lint
         run: deno lint
 
-      - name: Tests
-        run: deno test --allow-read
+      - name: Tests (locked)
+        run: deno test --allow-read --lock=deno.lock --frozen
