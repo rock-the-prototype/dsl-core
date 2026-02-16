@@ -10,7 +10,7 @@ import { parseRequirement } from "../src/parser/parser.ts";
 import {
   assertEquals,
   assertThrows,
-} from "https://deno.land/std/testing/asserts.ts";
+} from "@std/testing/asserts";
 
 Deno.test("Parsing a valid DSL Requirement Atom", () => {
   const input =
