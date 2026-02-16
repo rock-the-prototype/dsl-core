@@ -1,5 +1,5 @@
-import Ajv2020, { type ErrorObject } from "npm:ajv/dist/2020.js";
-import addFormats from "npm:ajv-formats@2";
+import Ajv2020, { type ErrorObject } from "ajv2020";
+import addFormats from "ajv-formats";
 
 import schema from "../schemas/report.schema.json" with { type: "json" };
 import validExample from "../schemas/examples/report.valid.minimal.json" with {
