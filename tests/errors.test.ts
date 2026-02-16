@@ -8,7 +8,7 @@ import {
 import {
   assertEquals,
   assertInstanceOf,
-} from "https://deno.land/std/testing/asserts.ts";
+} from "@std/testing/asserts";
 
 Deno.test("MissingActorError works", () => {
   const err = new MissingActorError();
