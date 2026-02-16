@@ -5,8 +5,7 @@
  * You may obtain a copy of the License at
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
-
-import { parseArgs } from "jsr:@std/cli/parse-args";
+import { parseArgs } from "@std/cli/parse-args";
 import { cmdValidate } from "./commands/validate.ts";
 import { cmdInspect } from "./commands/inspect.ts";
 import { cmdReport } from "./commands/report.ts";
