@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "@std/cli/": "jsr:@std/cli@1.0.6/",
+    "ajv2020": "npm:ajv@8.18.0/dist/2020.js",
+    "ajv-formats": "npm:ajv-formats@2.1.1"
+  }
+}
