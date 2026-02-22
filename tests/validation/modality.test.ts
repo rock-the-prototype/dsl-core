@@ -6,9 +6,9 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 
-import type { RequirementAtom } from "../../src/types/RequirementAtom.ts";
 import { expect } from "@std/expect";
-import { checkModality } from "../modality";
+import type { RequirementAtom } from "../../src/types/RequirementAtom.ts";
+import { checkModality } from "../../src/validation/ruleChecks/modality.ts";
 
 const baseAfo: RequirementAtom = {
   actor: "system",

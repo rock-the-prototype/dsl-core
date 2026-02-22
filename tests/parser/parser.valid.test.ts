@@ -6,19 +6,21 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 
+import { assertEquals } from "@std/assert";
 import { parseRequirement } from "../../src/parser/parser.ts";
 
-test("accepts canonical form", () => {
-  const atom = parseRequirement("As System, I must validate the token.");
-  expect(atom.actor).toBe("system");
+Deno.test("accepts canonical form", () => {
+  const atom = parseRequirement("As system, I must validate the token.");
+  assertEquals(atom.actor, "system");
+  assertEquals(atom.modality, "must");
 });
 
-test("accepts missing comma", () => {
-  const atom = parseRequirement("As System I must validate the token.");
-  expect(atom.actor).toBe("system");
+Deno.test("accepts missing comma", () => {
+  const atom = parseRequirement("As system I must validate the token.");
+  assertEquals(atom.actor, "system");
 });
 
-test("accepts subject-less form", () => {
+Deno.test("accepts subject-less form", () => {
   const atom = parseRequirement("System must validate the token.");
-  expect(atom.modality).toBe("must");
+  assertEquals(atom.modality, "must");
 });

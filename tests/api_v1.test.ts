@@ -9,7 +9,7 @@
 // tests/api_v1.test.ts
 
 import { handleApiV1Request } from "../src/server/api_v1.ts";
-import { assert, assertEquals } from "https://deno.land/std/assert/mod.ts";
+import { assert, assertEquals } from "@std/assert";
 
 // Helper to build requests
 function makeRequest(
@@ -21,11 +21,20 @@ function makeRequest(
   } = {},
 ): Request {
   const url = `https://example.com${path}`;
-  const method = opts.method ?? "POST";
+  const method = (opts.method ?? "POST").toUpperCase();
 
   // Roh-Body (für "kein JSON"-Fall)
   if (opts.rawBody !== undefined) {
+    // GET/HEAD dürfen keinen Body haben
+    if (method === "GET" || method === "HEAD") {
+      return new Request(url, { method });
+    }
     return new Request(url, { method, body: opts.rawBody });
+  }
+
+  // GET/HEAD dürfen keinen Body haben
+  if (method === "GET" || method === "HEAD") {
+    return new Request(url, { method });
   }
 
   const headers = { "Content-Type": "application/json" };
@@ -47,7 +56,7 @@ Deno.test("400 – body is not valid JSON", async () => {
   assertEquals(res.status, 400);
 
   const data = await res.json();
-  assertEquals(data.error, "Request body must be valid JSON.");
+  assertEquals(data.error, "❌ Request body must be valid JSON.");
 });
 
 Deno.test("405 – rejects non-POST methods", async () => {
@@ -90,8 +99,8 @@ Deno.test('400 – rejects missing "input" field', async () => {
 });
 
 Deno.test("500 – surfaces unexpected internal error", async () => {
-  // Hier nutzen wir einen bewusst ungültigen DSL-String,
-  // der im Parser eine Exception erzeugt, die NICHT HttpError ist.
+  // Bewusst ungültiger DSL-String ohne abschließenden Punkt:
+  // parseRequirement wirft NormalizationError -> API antwortet 500
   const req = makeRequest("/v1/parse", {
     body: { input: "Totally invalid DSL without actor" },
   });

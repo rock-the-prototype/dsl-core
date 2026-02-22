@@ -130,7 +130,7 @@ export function buildReport(
         }
         : undefined,
       error: s.error,
-      extensions: s.extensions,
+      // extensions: s.extensions,
     }));
 
     return {

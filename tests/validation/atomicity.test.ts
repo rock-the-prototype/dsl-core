@@ -8,7 +8,7 @@
 
 import type { RequirementAtom } from "../../src/types/RequirementAtom.ts";
 import { expect } from "@std/expect";
-import { checkAtomicity } from "../atomicity";
+import { checkAtomicity } from "../../src/validation/ruleChecks/atomicity.ts";
 
 const baseAfo: RequirementAtom = {
   actor: "system",

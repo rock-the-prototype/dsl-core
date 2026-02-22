@@ -8,7 +8,7 @@
 
 // src/server/server.ts
 
-import { serve } from "https://deno.land/std/http/server.ts";
+import { serve } from "@std/http/server";
 import { handleApiV1Request } from "./api_v1.ts";
 import { handlePlayground } from "./playground_handler.ts";
 

@@ -6,12 +6,13 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 
+import { assertThrows } from "@std/assert";
 import { parseRequirement } from "../../src/parser/parser.ts";
 
-test("rejects non-binding modality", () => {
-  expect(() => parseRequirement("System should validate the token.")).toThrow();
+Deno.test("rejects non-binding modality", () => {
+  assertThrows(() => parseRequirement("System should validate the token."));
 });
 
-test("rejects missing modality", () => {
-  expect(() => parseRequirement("System validate the token.")).toThrow();
+Deno.test("rejects missing modality", () => {
+  assertThrows(() => parseRequirement("System validate the token."));
 });

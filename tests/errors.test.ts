@@ -2,10 +2,11 @@
 
 import {
   InvalidModalityError,
+  MissingActorError,
   SchemaValidationError,
 } from "../src/errors/errors.ts";
 
-import { assertEquals, assertInstanceOf } from "@std/testing/asserts";
+import { assertEquals, assertInstanceOf } from "@std/assert";
 
 Deno.test("MissingActorError works", () => {
   const err = new MissingActorError();

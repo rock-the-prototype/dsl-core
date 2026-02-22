@@ -13,9 +13,9 @@
 
 import { normalizeInput } from "../parser/normalizer.ts";
 import { parseRequirement } from "../parser/parser.ts";
-import { validateRequirementAtom } from "../validation/validator.ts";
+import { validateRequirement } from "../validation/validator.ts";
 
-export interface RequirementAtom {
+export interface Requirement {
   actor: string;
   modality: "must" | "must not";
   action: string;
@@ -70,8 +70,8 @@ export async function handleApiV1Request(
       }
 
       case "/v1/validate": {
-        const atom = ensureObject<RequirementAtom>(body.atom);
-        const validation = validateRequirementAtom(atom);
+        const atom = ensureObject<Requirement>(body.atom);
+        const validation = validateRequirement(atom);
         return json({ success: validation.valid, atom, validation });
       }
 
@@ -79,7 +79,7 @@ export async function handleApiV1Request(
         const input = ensureString(body.input);
         const normalized = normalizeInput(input);
         const atom = parseRequirement(normalized);
-        const validation = validateRequirementAtom(atom);
+        const validation = validateRequirement(atom);
         return json({
           success: validation.valid,
           input,

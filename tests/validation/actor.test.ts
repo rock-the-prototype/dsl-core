@@ -6,24 +6,29 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 
+import { assertEquals } from "@std/assert";
 import { checkActor } from "../../src/validation/ruleChecks/actor.ts";
 import type { RequirementAtom } from "../../src/types/RequirementAtom.ts";
 
-const baseAfo = {
-  actor: "system",
-  modality: "must",
-  action: "validate the access token",
-} satisfies Partial<RequirementAtom>;
+Deno.test("accepts explicit actor", () => {
+  const atom: RequirementAtom = {
+    actor: "system",
+    modality: "must",
+    action: "validate token",
+  };
 
-test("accepts explicit actor", () => {
-  const errors = checkActor(baseAfo as RequirementAtom);
-  expect(errors).toHaveLength(0);
+  const errors = checkActor(atom);
+  assertEquals(errors.length, 0);
 });
 
-test("rejects placeholder actor", () => {
-  const errors = checkActor(
-    { ...baseAfo, actor: "tbd" } as RequirementAtom,
-  );
-  expect(errors).toHaveLength(1);
-  expect(errors[0].ruleId).toBe("AFO-ACTOR-001");
+Deno.test("rejects placeholder actor", () => {
+  const atom: RequirementAtom = {
+    actor: "actor",
+    modality: "must",
+    action: "validate token",
+  };
+
+  const errors = checkActor(atom);
+  assertEquals(errors.length, 1);
+  assertEquals(errors[0].ruleId, "AFO-ACTOR-001");
 });
