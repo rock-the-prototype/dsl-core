@@ -9,7 +9,15 @@
 import type { ValidationError } from "../types.ts";
 import type { RequirementAtom } from "../../types/RequirementAtom.ts";
 
-const INVALID_ACTORS = ["unknown", "n/a", "tbd", "todo", "someone", "anyone"];
+const INVALID_ACTORS = [
+  "actor",
+  "unknown",
+  "n/a",
+  "tbd",
+  "todo",
+  "someone",
+  "anyone",
+];
 
 export function checkActor(afo: RequirementAtom): ValidationError[] {
   const errors: ValidationError[] = [];
