@@ -47,7 +47,7 @@ export function parseRequirement(input: string): RequirementAtom {
    */
   // Case 1: With explicit "As <actor>, I|we must ..."
   const withAsRegex =
-    /^as\s+(?<actor>[A-Za-z0-9 _-]+),\s+(?<subject>i|we)\s+(?<modality>must not|must)\s+(?<rest>.+)$/i;
+    /^as\s+(?<actor>[A-Za-z0-9 _-]+)\s*,?\s+(?<subject>i|we)\s+(?<modality>must not|must)\s+(?<rest>.+)$/i;
 
   // Case 2: Without "As" prefix: "<actor> must ..."
   const withoutAsRegex =
