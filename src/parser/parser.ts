@@ -63,6 +63,14 @@ export function parseRequirement(input: string): RequirementAtom {
   }
 
   const actor = actorMatch.groups.actor.trim().toLowerCase();
+
+  // Reject subject pronouns as actor in subject-less form (e.g. "I must ...")
+  if (actor === "i" || actor === "we") {
+    throw new NormalizationError(
+      "Invalid requirement structure. Missing explicit actor before modality.",
+    );
+  }
+
   const modalityRaw = actorMatch.groups.modality.toLowerCase();
   const rest = actorMatch.groups.rest.trim();
 
