@@ -1,9 +1,19 @@
 # Audit-by-Design DSL — DSL Core
 
 **DSL Core** is the open standard specification and validation engine that turns
-**software engineering artifacts** into **verified**, **git-versioned**,
-**machine-readable records** — deterministic, traceable, and **audit-ready by
-design**.
+**software engineering artifacts** into 
+
+✅ **verified**, 
+✅ **git-versioned**,
+✅ **machine-readable records** 
+✅ **audit-ready by design**.
+
+**DSL Core**  enables your software development process turning into an easy to us and secure process. 
+
+❇️ Deterministic, 
+❇️ traceable, 
+❇️ transparent and 
+❇️ every step of within software development is easy to follow.
 
 **DSL Core** provides a reliable foundation for **sustainable architectural decisions** - requirements are formalized and validated in advance.
 
