@@ -5,7 +5,9 @@
 **machine-readable records** — deterministic, traceable, and **audit-ready by
 design**.
 
-By making requirements git versioned, explicit, verifiable, and traceable over
+**DSL Core** provides a reliable foundation for **sustainable architectural decisions** - requirements are formalized and validated in advance.
+
+By making all artifacts including requirements git versioned, explicit, verifiable, and traceable over
 time, DSL Core establishes the normative baseline against which implementations
 can be systematically audited allowing trustworthy digital systems.
 
