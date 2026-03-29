@@ -1,0 +1,119 @@
+{
+  "version": "1.0.0",
+  "profileId": "wp.work_package",
+  "appliesTo": "WorkPackageAtom",
+  "input": {
+    "form": "multiline",
+    "blockStart": "WP",
+    "blockSeparator": "blank_line"
+  },
+  "parser": {
+    "requiredKeys": ["header", "type", "title", "status", "priority"],
+    "fields": [
+      {
+        "key": "header",
+        "captures": {
+          "id": "id"
+        }
+      },
+      {
+        "key": "type",
+        "captures": {
+          "workType": "workType"
+        }
+      },
+      {
+        "key": "title",
+        "captures": {
+          "title": "title"
+        }
+      },
+      {
+        "key": "status",
+        "captures": {
+          "status": "status"
+        }
+      },
+      {
+        "key": "priority",
+        "captures": {
+          "priority": "priority"
+        }
+      },
+      {
+        "key": "owner",
+        "captures": {
+          "owner": "owner"
+        },
+        "required": false
+      },
+      {
+        "key": "parent",
+        "captures": {
+          "parent": "parent"
+        },
+        "required": false
+      },
+      {
+        "key": "relation",
+        "captures": {
+          "relationType": "relations[].type",
+          "target": "relations[].target"
+        },
+        "required": false,
+        "repeatable": true
+      },
+      {
+        "key": "label",
+        "captures": {
+          "label": "labels[]"
+        },
+        "required": false,
+        "repeatable": true
+      },
+      {
+        "key": "estimate",
+        "captures": {
+          "estimate": "estimate"
+        },
+        "required": false
+      },
+      {
+        "key": "dueDate",
+        "captures": {
+          "dueDate": "dueDate"
+        },
+        "required": false
+      },
+      {
+        "key": "description",
+        "captures": {
+          "description": "description"
+        },
+        "required": false
+      }
+    ]
+  },
+  "normalizer": {
+    "trimStrings": true,
+    "collapseInternalWhitespace": true,
+    "lowercaseFields": [
+      "workType",
+      "status",
+      "priority",
+      "relations[].type",
+      "labels[]"
+    ],
+    "preserveSourceOrderForArrays": ["relations", "labels"],
+    "dedupeArrays": ["relations", "labels"],
+    "coerce": {
+      "relations": "object_array",
+      "labels": "string_array",
+      "dueDate": "iso_date"
+    },
+    "defaults": {
+      "extensions": {}
+    },
+    "omitEmptyOptionalFields": true
+  }
+}

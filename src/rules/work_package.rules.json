@@ -1,0 +1,108 @@
+{
+  "version": "1.0.0",
+  "profileId": "wp.work_package",
+  "appliesTo": "WorkPackageAtom",
+  "rules": [
+    {
+      "id": "WP.WORK_PACKAGE.SYNTAX.001",
+      "title": "Block Syntax",
+      "description": "A work package MUST conform to the wp.work_package multiline block structure.",
+      "severity": "error",
+      "field": "$document",
+      "constraint": "wp_multiline_block"
+    },
+    {
+      "id": "WP.WORK_PACKAGE.ID.001",
+      "title": "Stable Identifier",
+      "description": "A work package MUST define a stable identifier using only letters, numbers, underscores, and hyphens.",
+      "severity": "error",
+      "field": "id",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    {
+      "id": "WP.WORK_PACKAGE.TYPE.001",
+      "title": "Allowed Work Type",
+      "description": "The workType MUST be one of the allowed technology-agnostic work package types.",
+      "severity": "error",
+      "field": "workType",
+      "allowedValues": [
+        "epic",
+        "feature",
+        "story",
+        "task",
+        "bug",
+        "adr",
+        "milestone",
+        "spike",
+        "chore"
+      ]
+    },
+    {
+      "id": "WP.WORK_PACKAGE.TITLE.001",
+      "title": "Title Presence and Length",
+      "description": "A work package MUST have a non-empty title and SHOULD remain concise enough for deterministic review.",
+      "severity": "error",
+      "field": "title",
+      "constraint": "non_empty_string",
+      "maxLength": 120
+    },
+    {
+      "id": "WP.WORK_PACKAGE.STATUS.001",
+      "title": "Allowed Status",
+      "description": "The status MUST be one of the allowed lifecycle states.",
+      "severity": "error",
+      "field": "status",
+      "allowedValues": [
+        "draft",
+        "ready",
+        "in_progress",
+        "blocked",
+        "done",
+        "accepted"
+      ]
+    },
+    {
+      "id": "WP.WORK_PACKAGE.PRIORITY.001",
+      "title": "Allowed Priority",
+      "description": "The priority MUST be one of the allowed priority classes.",
+      "severity": "error",
+      "field": "priority",
+      "allowedValues": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    {
+      "id": "WP.WORK_PACKAGE.RELATION.001",
+      "title": "Allowed Relation Type",
+      "description": "Each relation type MUST be part of the canonical relation vocabulary.",
+      "severity": "error",
+      "field": "relations[].type",
+      "allowedValues": [
+        "relates_to",
+        "depends_on",
+        "blocks",
+        "parent_of",
+        "child_of"
+      ]
+    },
+    {
+      "id": "WP.WORK_PACKAGE.DATE.001",
+      "title": "ISO Due Date",
+      "description": "If a due date is present, it MUST be expressed in ISO 8601 calendar date format (YYYY-MM-DD).",
+      "severity": "error",
+      "field": "dueDate",
+      "format": "date"
+    },
+    {
+      "id": "WP.WORK_PACKAGE.ESTIMATE.001",
+      "title": "Estimate Format",
+      "description": "If an estimate is present, it MUST use a compact, deterministic duration token such as 30m, 4h, 2d, or 1w.",
+      "severity": "error",
+      "field": "estimate",
+      "pattern": "^[1-9][0-9]*(m|h|d|w)$"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "WP-001",
+  "workType": "feature",
+  "title": "Define canonical work package atom.",
+  "status": "draft",
+  "priority": "high",
+  "description": "Define the first technology-agnostic work package profile for DSL Core.",
+  "owner": "sascha.block",
+  "parent": "EP-001",
+  "relations": [
+    {
+      "type": "blocks",
+      "target": "WP-000"
+    },
+    {
+      "type": "depends_on",
+      "target": "ADR-001"
+    }
+  ],
+  "labels": [
+    "planning",
+    "governance"
+  ],
+  "estimate": "2d",
+  "dueDate": "2026-04-10",
+  "extensions": {}
+}
