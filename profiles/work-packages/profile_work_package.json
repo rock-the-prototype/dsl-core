@@ -1,0 +1,199 @@
+{
+  "schemaVersion": "1.0.0",
+  "profileId": "wp.work_package",
+  "name": "Work Packages - Generic Work Package",
+  "description": "Validates technology-agnostic work packages. Produces deterministic Work Package Atoms and a machine-verifiable validation report.",
+  "artifact": {
+    "kind": "work_package",
+    "subtype": "generic",
+    "language": "en",
+    "inputForms": [
+      "multiline"
+    ]
+  },
+  "syntax": {
+    "multiline": {
+      "blockStart": "WP",
+      "lines": [
+        {
+          "key": "header",
+          "pattern": "^WP\\s+(?<id>[A-Za-z0-9_-]+)$"
+        },
+        {
+          "key": "type",
+          "pattern": "^TYPE\\s+(?<workType>[A-Za-z0-9_-]+)$"
+        },
+        {
+          "key": "title",
+          "pattern": "^TITLE\\s+(?<title>.+)$"
+        },
+        {
+          "key": "status",
+          "pattern": "^STATUS\\s+(?<status>[A-Za-z0-9_-]+)$"
+        },
+        {
+          "key": "priority",
+          "pattern": "^PRIORITY\\s+(?<priority>[A-Za-z0-9_-]+)$"
+        },
+        {
+          "key": "owner",
+          "pattern": "^OWNER\\s+(?<owner>[A-Za-z0-9._-]+)$",
+          "required": false
+        },
+        {
+          "key": "parent",
+          "pattern": "^PARENT\\s+(?<parent>[A-Za-z0-9_-]+)$",
+          "required": false
+        },
+        {
+          "key": "relation",
+          "pattern": "^REL\\s+(?<relationType>[A-Za-z_]+)\\s+(?<target>[A-Za-z0-9_-]+)$",
+          "required": false,
+          "repeatable": true
+        },
+        {
+          "key": "label",
+          "pattern": "^LABEL\\s+(?<label>[A-Za-z0-9._-]+)$",
+          "required": false,
+          "repeatable": true
+        },
+        {
+          "key": "estimate",
+          "pattern": "^ESTIMATE\\s+(?<estimate>[A-Za-z0-9._-]+)$",
+          "required": false
+        },
+        {
+          "key": "dueDate",
+          "pattern": "^DUE\\s+(?<dueDate>\\d{4}-\\d{2}-\\d{2})$",
+          "required": false
+        },
+        {
+          "key": "description",
+          "pattern": "^DESC\\s+(?<description>.+)$",
+          "required": false
+        }
+      ],
+      "blockSeparator": "blank_line"
+    }
+  },
+  "canonicalModel": {
+    "type": "WorkPackageAtom",
+    "fields": [
+      {
+        "name": "id",
+        "required": true
+      },
+      {
+        "name": "workType",
+        "required": true
+      },
+      {
+        "name": "title",
+        "required": true
+      },
+      {
+        "name": "status",
+        "required": true
+      },
+      {
+        "name": "priority",
+        "required": true
+      },
+      {
+        "name": "description",
+        "required": false
+      },
+      {
+        "name": "owner",
+        "required": false
+      },
+      {
+        "name": "parent",
+        "required": false
+      },
+      {
+        "name": "relations",
+        "required": false
+      },
+      {
+        "name": "labels",
+        "required": false
+      },
+      {
+        "name": "estimate",
+        "required": false
+      },
+      {
+        "name": "dueDate",
+        "required": false
+      },
+      {
+        "name": "extensions",
+        "required": false
+      }
+    ]
+  },
+  "ruleset": {
+    "namespace": "WP.WORK_PACKAGE",
+    "enabledRules": [
+      "WP.WORK_PACKAGE.SYNTAX.001",
+      "WP.WORK_PACKAGE.ID.001",
+      "WP.WORK_PACKAGE.TYPE.001",
+      "WP.WORK_PACKAGE.TITLE.001",
+      "WP.WORK_PACKAGE.STATUS.001",
+      "WP.WORK_PACKAGE.PRIORITY.001",
+      "WP.WORK_PACKAGE.RELATION.001",
+      "WP.WORK_PACKAGE.DATE.001",
+      "WP.WORK_PACKAGE.ESTIMATE.001"
+    ],
+    "parameters": {
+      "maxLenTitle": 120,
+      "maxLenDescription": 500,
+      "allowedWorkTypes": [
+        "epic",
+        "feature",
+        "story",
+        "task",
+        "bug",
+        "adr",
+        "milestone",
+        "spike",
+        "chore"
+      ],
+      "allowedStatuses": [
+        "draft",
+        "ready",
+        "in_progress",
+        "blocked",
+        "done",
+        "accepted"
+      ],
+      "allowedPriorities": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ],
+      "allowedRelationTypes": [
+        "relates_to",
+        "depends_on",
+        "blocks",
+        "parent_of",
+        "child_of"
+      ]
+    }
+  },
+  "output": {
+    "report": {
+      "format": "DslCoreReport",
+      "ruleIdRequired": true,
+      "deterministic": true,
+      "includeSourceLocations": true,
+      "exitCodes": {
+        "ok": 0,
+        "invalid": 1,
+        "parse_error": 2
+      }
+    }
+  }
+}
