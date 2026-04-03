@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "1.1.0",
+  "profileId": "graph.work_package.standard",
+  "name": "Work Package Graph - Standard",
+  "description": "Defines the standard cross-artifact relationship model for technology-agnostic work packages.",
+  "artifactGraph": {
+    "rootType": "WorkPackageAtom",
+    "relationTypes": [
+      {
+        "name": "depends_on",
+        "sourceTypes": [
+          "WorkPackageAtom"
+        ],
+        "targetTypes": [
+          "WorkPackageAtom",
+          "RequirementAtom",
+          "DecisionAtom",
+          "MilestoneAtom"
+        ],
+        "cardinality": "0..*",
+        "acyclic": true
+      },
+      {
+        "name": "blocks",
+        "sourceTypes": [
+          "WorkPackageAtom"
+        ],
+        "targetTypes": [
+          "WorkPackageAtom"
+        ],
+        "cardinality": "0..*",
+        "acyclic": true
+      },
+      {
+        "name": "relates_to",
+        "sourceTypes": [
+          "WorkPackageAtom"
+        ],
+        "targetTypes": [
+          "WorkPackageAtom",
+          "RequirementAtom",
+          "DecisionAtom",
+          "MilestoneAtom"
+        ],
+        "cardinality": "0..*",
+        "acyclic": false
+      },
+      {
+        "name": "parent_of",
+        "sourceTypes": [
+          "WorkPackageAtom"
+        ],
+        "targetTypes": [
+          "WorkPackageAtom"
+        ],
+        "cardinality": "0..*",
+        "acyclic": true
+      },
+      {
+        "name": "child_of",
+        "sourceTypes": [
+          "WorkPackageAtom"
+        ],
+        "targetTypes": [
+          "WorkPackageAtom"
+        ],
+        "cardinality": "0..1",
+        "acyclic": true
+      }
+    ],
+    "constraints": [
+      {
+        "id": "GRAPH.WORK_PACKAGE.PARENT_CHILD.001",
+        "description": "A work package MUST NOT define more than one child_of relationship."
+      },
+      {
+        "id": "GRAPH.WORK_PACKAGE.CYCLE.001",
+        "description": "Relationships marked as acyclic MUST NOT form cycles."
+      },
+      {
+        "id": "GRAPH.WORK_PACKAGE.TARGET_TYPE.001",
+        "description": "Each relation target MUST match one of the allowed target types for its relation type."
+      }
+    ]
+  },
+  "output": {
+    "report": {
+      "format": "DslCoreReport",
+      "ruleIdRequired": true,
+      "deterministic": true,
+      "includeSourceLocations": true,
+      "exitCodes": {
+        "ok": 0,
+        "invalid": 1,
+        "parse_error": 2
+      }
+    }
+  }
+}
