@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "profileId": "wp.work_package",
   "name": "Work Packages - Generic Work Package",
   "description": "Validates technology-agnostic work packages. Produces deterministic Work Package Atoms and a machine-verifiable validation report.",
@@ -38,39 +38,39 @@
         {
           "key": "owner",
           "pattern": "^OWNER\\s+(?<owner>[A-Za-z0-9._-]+)$",
-          "required": false
+          "cardinality": "0..1"
         },
         {
           "key": "parent",
           "pattern": "^PARENT\\s+(?<parent>[A-Za-z0-9_-]+)$",
-          "required": false
+          "cardinality": "0..1"
         },
         {
           "key": "relation",
           "pattern": "^REL\\s+(?<relationType>[A-Za-z_]+)\\s+(?<target>[A-Za-z0-9_-]+)$",
-          "required": false,
+          "cardinality": "0..*",
           "repeatable": true
         },
         {
           "key": "label",
           "pattern": "^LABEL\\s+(?<label>[A-Za-z0-9._-]+)$",
-          "required": false,
+          "cardinality": "0..*",
           "repeatable": true
         },
         {
           "key": "estimate",
           "pattern": "^ESTIMATE\\s+(?<estimate>[A-Za-z0-9._-]+)$",
-          "required": false
+          "cardinality": "0..1"
         },
         {
           "key": "dueDate",
           "pattern": "^DUE\\s+(?<dueDate>\\d{4}-\\d{2}-\\d{2})$",
-          "required": false
+          "cardinality": "0..1"
         },
         {
           "key": "description",
           "pattern": "^DESC\\s+(?<description>.+)$",
-          "required": false
+          "cardinality": "0..1"
         }
       ],
       "blockSeparator": "blank_line"
@@ -81,55 +81,117 @@
     "fields": [
       {
         "name": "id",
-        "required": true
+        "type": "string",
+        "cardinality": "1..1"
       },
       {
         "name": "workType",
-        "required": true
+        "type": "code",
+        "cardinality": "1..1",
+        "allowed": [
+          "epic",
+          "feature",
+          "story",
+          "task",
+          "bug",
+          "adr",
+          "milestone",
+          "spike",
+          "chore"
+        ]
       },
       {
         "name": "title",
-        "required": true
+        "type": "string",
+        "cardinality": "1..1"
       },
       {
         "name": "status",
-        "required": true
+        "type": "code",
+        "cardinality": "1..1",
+        "allowed": [
+          "draft",
+          "ready",
+          "in_progress",
+          "blocked",
+          "done",
+          "accepted"
+        ]
       },
       {
         "name": "priority",
-        "required": true
+        "type": "code",
+        "cardinality": "1..1",
+        "allowed": [
+          "critical",
+          "high",
+          "medium",
+          "low"
+        ]
       },
       {
         "name": "description",
-        "required": false
+        "type": "string",
+        "cardinality": "0..1"
       },
       {
         "name": "owner",
-        "required": false
+        "type": "string",
+        "cardinality": "0..1"
       },
       {
         "name": "parent",
-        "required": false
+        "type": "id",
+        "cardinality": "0..1"
       },
       {
         "name": "relations",
-        "required": false
+        "type": "Relation",
+        "cardinality": "0..*"
       },
       {
         "name": "labels",
-        "required": false
+        "type": "string",
+        "cardinality": "0..*"
       },
       {
         "name": "estimate",
-        "required": false
+        "type": "duration_token",
+        "cardinality": "0..1"
       },
       {
         "name": "dueDate",
-        "required": false
+        "type": "date",
+        "cardinality": "0..1"
       },
       {
         "name": "extensions",
-        "required": false
+        "type": "object",
+        "cardinality": "0..1"
+      }
+    ],
+    "nestedTypes": [
+      {
+        "name": "Relation",
+        "fields": [
+          {
+            "name": "type",
+            "type": "code",
+            "cardinality": "1..1",
+            "allowed": [
+              "relates_to",
+              "depends_on",
+              "blocks",
+              "parent_of",
+              "child_of"
+            ]
+          },
+          {
+            "name": "target",
+            "type": "id",
+            "cardinality": "1..1"
+          }
+        ]
       }
     ]
   },
