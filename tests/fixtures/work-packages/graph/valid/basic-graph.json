@@ -1,0 +1,43 @@
+[
+  {
+    "id": "WP-001",
+    "workType": "feature",
+    "title": "Define the work package artifact model.",
+    "status": "done",
+    "priority": "high",
+    "relations": [
+      {
+        "type": "relates_to",
+        "target": "ADR-001"
+      }
+    ],
+    "extensions": {}
+  },
+  {
+    "id": "WP-002",
+    "workType": "task",
+    "title": "Implement parser support for work packages.",
+    "status": "in_progress",
+    "priority": "high",
+    "relations": [
+      {
+        "type": "depends_on",
+        "target": "WP-001"
+      },
+      {
+        "type": "child_of",
+        "target": "WP-003"
+      }
+    ],
+    "extensions": {}
+  },
+  {
+    "id": "WP-003",
+    "workType": "epic",
+    "title": "Deliver initial work package runtime support.",
+    "status": "ready",
+    "priority": "critical",
+    "relations": [],
+    "extensions": {}
+  }
+]
