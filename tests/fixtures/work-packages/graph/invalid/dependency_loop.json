@@ -1,0 +1,44 @@
+[
+  {
+    "id": "WP-010",
+    "workType": "task",
+    "title": "Prepare parser wiring.",
+    "status": "ready",
+    "priority": "high",
+    "relations": [
+      {
+        "type": "depends_on",
+        "target": "WP-011"
+      }
+    ],
+    "extensions": {}
+  },
+  {
+    "id": "WP-011",
+    "workType": "task",
+    "title": "Prepare validator wiring.",
+    "status": "ready",
+    "priority": "high",
+    "relations": [
+      {
+        "type": "depends_on",
+        "target": "WP-012"
+      }
+    ],
+    "extensions": {}
+  },
+  {
+    "id": "WP-012",
+    "workType": "task",
+    "title": "Close the invalid dependency loop.",
+    "status": "ready",
+    "priority": "high",
+    "relations": [
+      {
+        "type": "depends_on",
+        "target": "WP-010"
+      }
+    ],
+    "extensions": {}
+  }
+]
