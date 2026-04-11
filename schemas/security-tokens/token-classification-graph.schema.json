@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "token-classification-graph.schema.json",
+  "title": "TokenClassificationGraph",
+  "description": "Derived graph projection for token classification and semantic relations.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["type", "id", "nodes", "edges"],
+  "properties": {
+    "type": {
+      "const": "TokenClassificationGraph"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^graph\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/node"
+      },
+      "minItems": 1
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/edge"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "generatedFrom": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/genericEntityRef"
+          },
+          "uniqueItems": true
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "$defs": {
+    "genericEntityRef": {
+      "type": "string",
+      "pattern": "^(function|binding|format|carrier|validation|role|token|variant|graph)\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "nodeId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]+$"
+    },
+    "nodeKind": {
+      "type": "string",
+      "enum": ["token_concept", "token_variant", "term", "group"]
+    },
+    "termCategory": {
+      "type": "string",
+      "enum": ["function", "binding", "format", "carrier", "validation", "role"]
+    },
+    "edgeType": {
+      "type": "string",
+      "enum": [
+        "has_primary_function",
+        "supports_binding",
+        "supports_format",
+        "supports_carrier",
+        "supports_validation_mode",
+        "has_role_in_flow",
+        "variant_of",
+        "related_to",
+        "specializes",
+        "exchanged_for",
+        "renews",
+        "bootstraps",
+        "continues",
+        "protects",
+        "proves",
+        "binds_to",
+        "incompatible_with",
+        "requires",
+        "used_with",
+        "alternative_of",
+        "derived_from",
+        "replaces"
+      ]
+    },
+    "cardinality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min", "max"],
+      "properties": {
+        "min": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "const": "*"
+            }
+          ]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "label"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/nodeId"
+        },
+        "kind": {
+          "$ref": "#/$defs/nodeKind"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ref": {
+          "$ref": "#/$defs/genericEntityRef"
+        },
+        "termCategory": {
+          "$ref": "#/$defs/termCategory"
+        }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "source", "target"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._:-]+$"
+        },
+        "type": {
+          "$ref": "#/$defs/edgeType"
+        },
+        "source": {
+          "$ref": "#/$defs/nodeId"
+        },
+        "target": {
+          "$ref": "#/$defs/nodeId"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cardinality": {
+          "$ref": "#/$defs/cardinality"
+        }
+      }
+    }
+  }
+}
