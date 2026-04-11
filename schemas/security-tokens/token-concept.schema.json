@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "token-concept.schema.json",
+  "title": "TokenConceptAtom",
+  "description": "Canonical token concept with supported classification dimensions and semantic relations.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "type",
+    "id",
+    "label",
+    "primaryFunctions",
+    "formats",
+    "validationModes",
+    "rolesInFlow"
+  ],
+  "properties": {
+    "type": {
+      "const": "TokenConceptAtom"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^token\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "primaryFunctions": {
+      "type": "array",
+      "items": {
+        "$ref": "token-term.schema.json#/$defs/functionRef"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "bindings": {
+      "type": "array",
+      "items": {
+        "$ref": "token-term.schema.json#/$defs/bindingRef"
+      },
+      "uniqueItems": true
+    },
+    "formats": {
+      "type": "array",
+      "items": {
+        "$ref": "token-term.schema.json#/$defs/formatRef"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "carriers": {
+      "type": "array",
+      "items": {
+        "$ref": "token-term.schema.json#/$defs/carrierRef"
+      },
+      "uniqueItems": true
+    },
+    "validationModes": {
+      "type": "array",
+      "items": {
+        "$ref": "token-term.schema.json#/$defs/validationRef"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "rolesInFlow": {
+      "type": "array",
+      "items": {
+        "$ref": "token-term.schema.json#/$defs/roleRef"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/relation"
+      }
+    },
+    "variants": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/variantRef"
+      },
+      "uniqueItems": true
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "deprecated"]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "variantRef": {
+      "type": "string",
+      "pattern": "^variant\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "genericEntityRef": {
+      "type": "string",
+      "pattern": "^(function|binding|format|carrier|validation|role|token|variant|graph)\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "relationType": {
+      "type": "string",
+      "enum": [
+        "related_to",
+        "specializes",
+        "exchanged_for",
+        "renews",
+        "bootstraps",
+        "continues",
+        "protects",
+        "proves",
+        "binds_to",
+        "incompatible_with",
+        "requires",
+        "used_with",
+        "alternative_of",
+        "derived_from",
+        "replaces"
+      ]
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "target"],
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/relationType"
+        },
+        "target": {
+          "$ref": "#/$defs/genericEntityRef"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
