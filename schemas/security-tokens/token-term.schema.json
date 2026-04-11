@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "token-term.schema.json",
+  "title": "TokenTermAtom",
+  "description": "Canonical taxonomy term for security token classification.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["type", "id", "category", "label"],
+  "properties": {
+    "type": {
+      "const": "TokenTermAtom"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^(function|binding|format|carrier|validation|role)\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["function", "binding", "format", "carrier", "validation", "role"]
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "aliases": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "function"
+          }
+        },
+        "required": ["category"]
+      },
+      "then": {
+        "properties": {
+          "id": {
+            "pattern": "^function\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "binding"
+          }
+        },
+        "required": ["category"]
+      },
+      "then": {
+        "properties": {
+          "id": {
+            "pattern": "^binding\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "format"
+          }
+        },
+        "required": ["category"]
+      },
+      "then": {
+        "properties": {
+          "id": {
+            "pattern": "^format\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "carrier"
+          }
+        },
+        "required": ["category"]
+      },
+      "then": {
+        "properties": {
+          "id": {
+            "pattern": "^carrier\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "validation"
+          }
+        },
+        "required": ["category"]
+      },
+      "then": {
+        "properties": {
+          "id": {
+            "pattern": "^validation\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "role"
+          }
+        },
+        "required": ["category"]
+      },
+      "then": {
+        "properties": {
+          "id": {
+            "pattern": "^role\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "functionRef": {
+      "type": "string",
+      "pattern": "^function\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "bindingRef": {
+      "type": "string",
+      "pattern": "^binding\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "formatRef": {
+      "type": "string",
+      "pattern": "^format\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "carrierRef": {
+      "type": "string",
+      "pattern": "^carrier\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "validationRef": {
+      "type": "string",
+      "pattern": "^validation\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "roleRef": {
+      "type": "string",
+      "pattern": "^role\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "genericEntityRef": {
+      "type": "string",
+      "pattern": "^(function|binding|format|carrier|validation|role|token|variant|graph)\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    }
+  }
+}
