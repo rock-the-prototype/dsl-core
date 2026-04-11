@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "token-variant.schema.json",
+  "title": "TokenVariantAtom",
+  "description": "Concrete technical variant of a token concept.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "type",
+    "id",
+    "tokenRef",
+    "format",
+    "validationMode",
+    "rolesInFlow"
+  ],
+  "properties": {
+    "type": {
+      "const": "TokenVariantAtom"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^variant\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tokenRef": {
+      "$ref": "#/$defs/tokenRef"
+    },
+    "primaryFunctions": {
+      "type": "array",
+      "items": {
+        "$ref": "token-term.schema.json#/$defs/functionRef"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "binding": {
+      "$ref": "token-term.schema.json#/$defs/bindingRef"
+    },
+    "format": {
+      "$ref": "token-term.schema.json#/$defs/formatRef"
+    },
+    "carrier": {
+      "$ref": "token-term.schema.json#/$defs/carrierRef"
+    },
+    "validationMode": {
+      "$ref": "token-term.schema.json#/$defs/validationRef"
+    },
+    "rolesInFlow": {
+      "type": "array",
+      "items": {
+        "$ref": "token-term.schema.json#/$defs/roleRef"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/constraint"
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/relation"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "deprecated"]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "tokenRef": {
+      "type": "string",
+      "pattern": "^token\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "genericEntityRef": {
+      "type": "string",
+      "pattern": "^(function|binding|format|carrier|validation|role|token|variant|graph)\\.[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "constraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "description"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "precondition",
+            "requirement",
+            "assumption",
+            "limitation",
+            "compatibility",
+            "security_note"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ref": {
+          "$ref": "#/$defs/genericEntityRef"
+        }
+      }
+    },
+    "relationType": {
+      "type": "string",
+      "enum": [
+        "related_to",
+        "specializes",
+        "exchanged_for",
+        "renews",
+        "bootstraps",
+        "continues",
+        "protects",
+        "proves",
+        "binds_to",
+        "incompatible_with",
+        "requires",
+        "used_with",
+        "alternative_of",
+        "derived_from",
+        "replaces"
+      ]
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "target"],
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/relationType"
+        },
+        "target": {
+          "$ref": "#/$defs/genericEntityRef"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
