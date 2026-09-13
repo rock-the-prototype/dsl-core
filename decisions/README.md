@@ -20,3 +20,10 @@ ADR-NNNN
 A decision that replaces an existing decision MUST reference the decision it
 supersedes. Existing accepted decisions MUST NOT be silently rewritten to
 represent a different architectural choice.
+
+## Decision Index
+
+| ID                                                                   | Decision                                   | Status   |
+| -------------------------------------------------------------------- | ------------------------------------------ | -------- |
+| [ADR-0001](./ADR-0001-canonical-artifact-identity.md)                | Canonical Artifact Identity                | Accepted |
+| [ADR-0002](./ADR-0002-canonical-artifact-identity-representation.md) | Canonical Artifact Identity Representation | Accepted |
