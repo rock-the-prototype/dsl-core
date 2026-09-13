@@ -152,6 +152,12 @@ revision-proof, machine-readable, and versioned manner — providing a
 deterministic and auditable foundation for regulated and trustworthy digital
 systems.
 
+## Repository Decisions
+
+Durable technical and architectural decisions that govern the executable semantics of DSL Core are recorded in [`decisions/`](./decisions/README.md).
+
+These records preserve implementation rationale and do not replace the normative DSL specification in `dsl-docs`.
+
 ## Public Schema Contracts
 
 `dsl-core` exposes **public JSON Schema contracts** for its machine-consumable
