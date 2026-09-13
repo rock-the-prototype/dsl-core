@@ -154,9 +154,11 @@ systems.
 
 ## Repository Decisions
 
-Durable technical and architectural decisions that govern the executable semantics of DSL Core are recorded in [`decisions/`](./decisions/README.md).
+Durable technical and architectural decisions that govern the executable
+semantics of DSL Core are recorded in [`decisions/`](./decisions/README.md).
 
-These records preserve implementation rationale and do not replace the normative DSL specification in `dsl-docs`.
+These records preserve implementation rationale and do not replace the normative
+DSL specification in `dsl-docs`.
 
 ## Public Schema Contracts
 
